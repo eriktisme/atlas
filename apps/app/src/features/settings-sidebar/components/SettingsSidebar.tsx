@@ -16,6 +16,7 @@ import { Protect, useOrganization } from '@clerk/nextjs'
 import {
   BuildingIcon,
   ChevronLeftIcon,
+  CodeIcon,
   Settings2Icon,
   UsersIcon,
 } from 'lucide-react'
@@ -37,6 +38,14 @@ const adminRoutes = [
     key: 'members',
     label: 'Members',
     icon: <UsersIcon />,
+  },
+]
+
+const developerRoutes = [
+  {
+    key: 'api-keys',
+    label: 'API Keys',
+    icon: <CodeIcon />,
   },
 ]
 
@@ -106,6 +115,27 @@ export const SettingsSidebar = (props: Props) => {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {adminRoutes.map((route) => {
+                    const currentPath = `/${organization?.slug}/settings/${route.key}`
+
+                    return (
+                      <SidebarMenuItem key={`route-${route.key}`}>
+                        <Link href={currentPath}>
+                          <SidebarMenuButton
+                            isActive={currentPath === pathname}
+                          >
+                            {route.icon}
+                            <span>{route.label}</span>
+                          </SidebarMenuButton>
+                        </Link>
+                      </SidebarMenuItem>
+                    )
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+              <SidebarGroupLabel>Developers</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {developerRoutes.map((route) => {
                     const currentPath = `/${organization?.slug}/settings/${route.key}`
 
                     return (
