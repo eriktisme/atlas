@@ -1,8 +1,8 @@
 export interface AtlasConfig {
   /**
-   * The host URL for the Atlas API.
+   * The region to use for the Atlas service.
    */
-  host: string
+  region: 'eu-west-1'
 
   /**
    * The API key for accessing the Atlas API.
