@@ -1,7 +1,8 @@
 import type { StackProps } from '@internal/cdk-utils/stack'
 import { Stack } from '@internal/cdk-utils/stack'
 import type { Construct } from 'constructs'
-import { ARecord, CnameRecord, IPublicHostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
+import type { IPublicHostedZone } from 'aws-cdk-lib/aws-route53'
+import { CnameRecord } from 'aws-cdk-lib/aws-route53'
 import {
   CaaRecord,
   CaaTag,
