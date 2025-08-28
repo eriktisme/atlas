@@ -1,0 +1,12 @@
+{
+  "name": "@internal/cdk-utils",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lint": "eslint '**/*.ts'",
+    "typeCheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "@internal/tsconfig": "workspace:*"
+  }
+}

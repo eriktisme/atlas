@@ -1,0 +1,26 @@
+{
+  "name": "migrations",
+  "version": "0.1.0",
+  "bin": {
+    "app": "bin/app.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "cdk": "cdk",
+    "lint": "eslint '**/*.ts'",
+    "generate:migration": "drizzle-kit generate --dialect=postgresql --schema=./src/schema.ts --out=./src/migrations",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "typeCheck": "tsc --noEmit --emitDeclarationOnly false",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "@internal/database": "workspace:*",
+    "@internal/lambda-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@internal/cdk-utils": "workspace:*",
+    "@internal/tsconfig": "workspace:*",
+    "@types/node": "^22"
+  }
+}

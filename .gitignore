@@ -1,0 +1,5 @@
+.turbo
+.next
+cdk.out
+node_modules
+*.d.ts.map
