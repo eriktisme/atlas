@@ -1,0 +1,61 @@
+name: Visual
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CI: true
+  TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  TURBO_TEAM: ${{ secrets.VERCEL_ORG_ID }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - apps/storybook
+      - packages/design-system
+  pull_request:
+    paths:
+      - apps/storybook
+      - packages/design-system
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  publish-design-system:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_DESIGN_SYSTEM_PROJECT }}
+          workingDir: apps/storybook
+          onlyChanged: true
+          exitZeroOnChanges: true
