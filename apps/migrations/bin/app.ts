@@ -20,6 +20,7 @@ new RootStack(app, 'migrations', {
   regions: ['eu-west-1'],
   service: {
     props: {
+      databaseUrl: process.env.DATABASE_URL as string,
       serviceName: 'migrations',
       projectName,
       stage,

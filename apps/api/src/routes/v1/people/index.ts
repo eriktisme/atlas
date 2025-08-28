@@ -13,7 +13,6 @@ import {
 } from '@internal/lambda-utils/shared'
 import { Tracer } from '@aws-lambda-powertools/tracer'
 import { Logger } from '@aws-lambda-powertools/logger'
-
 import { createConnection } from '@internal/database/connection'
 import { people } from '@internal/database/schema'
 import type { SQL } from 'drizzle-orm'
@@ -29,18 +28,9 @@ const config = ConfigSchema.parse({
   databaseUrl: process.env.DATABASE_URL,
 })
 
-const tracer = new Tracer()
+new Tracer()
 
 const logger = new Logger()
-
-const secretsManagerClient = tracer.captureAWSv3Client(
-  new SecretsManagerClient()
-)
-
-const connectionString = await readSecret<string>(
-  secretsManagerClient,
-  config.connectionStringSecretName
-)
 
 const connection = createConnection(config.databaseUrl)
 

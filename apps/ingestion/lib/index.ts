@@ -7,7 +7,6 @@ import { EventBus } from 'aws-cdk-lib/aws-events'
 import { PersistCapturedEventsToDatabase } from '../constructs/persist-captured-events-to-database'
 import { PersistIdentifiedPeopleToDatabase } from '../constructs/persist-identified-people-to-database'
 import { PersistIdentifiedGroupsToDatabase } from '../constructs/persist-identified-groups-to-database'
-import { DispatchCapturedEventsToIntegrations } from '../constructs/dispatch-captured-events-to-integrations'
 import { PersistCapturedEventsToStorage } from '../constructs/persist-captured-events-to-storage'
 
 interface Props extends StackProps {
@@ -82,15 +81,6 @@ export class IngestionService extends Stack {
     new PersistIdentifiedGroupsToDatabase(
       this,
       'persist-identified-groups-to-database',
-      {
-        eventBus,
-        databaseUrl: props.databaseUrl,
-      }
-    )
-
-    new DispatchCapturedEventsToIntegrations(
-      this,
-      'dispatch-captured-events-to-integrations',
       {
         eventBus,
         databaseUrl: props.databaseUrl,

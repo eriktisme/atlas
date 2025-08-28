@@ -13,7 +13,7 @@ export class PersistCapturedEventsToDatabase extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id)
 
-    const { handler } = new EventConsumer(this, 'persist-events', {
+    new EventConsumer(this, 'persist-events', {
       eventBus: props.eventBus,
       handlerProps: {
         serviceName: Stack.getStack(this).serviceName,

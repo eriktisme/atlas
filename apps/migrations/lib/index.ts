@@ -1,9 +1,8 @@
 import type { Construct } from 'constructs'
 import type { StackProps } from '@internal/cdk-utils/stack'
 import { Stack } from '@internal/cdk-utils/stack'
-import { createSecret } from '@internal/cdk-utils/secrets'
 import { NodeJSLambda } from '@internal/cdk-utils/lambda'
-import { CustomResource, Duration, SecretValue } from 'aws-cdk-lib'
+import { CustomResource, Duration } from 'aws-cdk-lib'
 import { Provider } from 'aws-cdk-lib/custom-resources'
 import { RetentionDays } from 'aws-cdk-lib/aws-logs'
 import { join } from 'path'
@@ -11,22 +10,13 @@ import type { Hash } from 'crypto'
 import { createHash } from 'crypto'
 import { readdirSync, statSync } from 'fs'
 
-export class MigrationsService extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps) {
-    super(scope, id, props)
+interface Props extends StackProps {
+  databaseUrl: string
+}
 
-    const connectionStringSecret = createSecret(
-      this,
-      'database-connection-string',
-      {
-        description:
-          'The connection string for the database used by the migrations service.',
-        secretName: 'database-connection-string',
-        secretStringValue: SecretValue.unsafePlainText(
-          'placeholder-connection-string'
-        ),
-      }
-    )
+export class MigrationsService extends Stack {
+  constructor(scope: Construct, id: string, props: Props) {
+    super(scope, id, props)
 
     const migrationDirectoryPath = join(__dirname, '../src/migrations')
 
@@ -51,8 +41,6 @@ export class MigrationsService extends Stack {
       },
       logRetention: RetentionDays.ONE_YEAR,
     })
-
-    connectionStringSecret.grantRead(onEventHandler)
 
     const provider = new Provider(this, 'provider', {
       onEventHandler,
