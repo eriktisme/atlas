@@ -24,6 +24,7 @@ jobs:
       group: '${{ github.workflow }}-${{ github.event.number || github.sha }}'
       cancel-in-progress: true
     env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
 
     steps:
