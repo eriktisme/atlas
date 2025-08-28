@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "types": ["jest", "node"]
+  },
+  "exclude": ["cdk.out", "node_modules"],
+  "extends": "./tsconfig.json",
+  "include": ["bin", "src", "jest.config.ts"]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@internal/events-schema",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lint": "eslint '**/*.ts'",
+    "typeCheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.18.4"
+  },
+  "devDependencies": {
+    "@internal/api-schema": "workspace:*",
+    "@internal/tsconfig": "workspace:*"
+  }
+}
