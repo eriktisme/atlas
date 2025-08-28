@@ -21,7 +21,7 @@ export class People {
       )
     }
 
-    const url = new URL(`${this.instance.config.host}/v1/people`)
+    const url = new URL(`${this.instance.endpoints.api}/v1/people`)
 
     if (query) {
       Object.entries(query).forEach(([key, value]) => {
@@ -59,7 +59,7 @@ export class People {
       )
     }
 
-    const url = new URL(`${this.instance.config.host}/v1/people/${id}`)
+    const url = new URL(`${this.instance.config.region}/v1/people/${id}`)
 
     const response = await fetch(url, {
       method: 'GET',
@@ -86,7 +86,7 @@ export class People {
       )
     }
 
-    const url = new URL(`${this.instance.config.host}/v1/people/${id}`)
+    const url = new URL(`${this.instance.config.region}/v1/people/${id}`)
 
     const response = await fetch(url, {
       method: 'DELETE',

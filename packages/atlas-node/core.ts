@@ -11,6 +11,21 @@ export class Atlas {
   config: AtlasConfig
 
   /**
+   * The base endpoints for the Atlas APIs.
+   */
+  endpoints: {
+    /**
+     * The base URL for the public API.
+     */
+    api: string
+
+    /**
+     * The base URL for the ingestion API.
+     */
+    ingestion: string
+  }
+
+  /**
    * Persistence layer for the Atlas instance.
    * This is used to store and retrieve data.
    */
@@ -32,6 +47,10 @@ export class Atlas {
       key,
     }
 
+    this.endpoints = {
+      api: `https://api.${this.config.region}.erikvandam.dev`,
+      ingestion: `https://ingestion.${this.config.region}.erikvandam.dev`,
+    }
     this.events = new Events(this)
     this.persistence = new Persistence(this)
     this.people = new People(this)

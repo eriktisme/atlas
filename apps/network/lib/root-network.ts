@@ -2,13 +2,7 @@ import type { StackProps as RootStackProps } from '@internal/cdk-utils/root-stac
 import { RootStack } from '@internal/cdk-utils/root-stack'
 import type { Construct } from 'constructs'
 import type { Network, Props as NetworkProps } from './network'
-import {
-  ARecord,
-  CaaRecord,
-  CaaTag,
-  PublicHostedZone,
-  RecordTarget,
-} from 'aws-cdk-lib/aws-route53'
+import { CaaRecord, CaaTag, PublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 
 interface Props extends RootStackProps<Network, NetworkProps> {
