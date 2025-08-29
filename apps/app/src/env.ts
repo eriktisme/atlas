@@ -16,9 +16,6 @@ export const env = createEnv({
     // Added by Vercel
     NEXT_PUBLIC_VERCEL_URL: z.string(),
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: z.string(),
-
-    // Added by Atlas
-    NEXT_PUBLIC_ACCOUNT_API: z.string(),
   },
   /*
    * Environment variables available on the client (and server).
@@ -29,7 +26,6 @@ export const env = createEnv({
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
-    NEXT_PUBLIC_ACCOUNT_API: process.env.NEXT_PUBLIC_ACCOUNT_API,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL:
       process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:

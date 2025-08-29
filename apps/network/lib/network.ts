@@ -2,7 +2,6 @@ import type { StackProps } from '@internal/cdk-utils/stack'
 import { Stack } from '@internal/cdk-utils/stack'
 import type { Construct } from 'constructs'
 import type { IPublicHostedZone } from 'aws-cdk-lib/aws-route53'
-import { CnameRecord } from 'aws-cdk-lib/aws-route53'
 import {
   CaaRecord,
   CaaTag,
@@ -67,12 +66,6 @@ export class Network extends Stack {
           value: 'amazonaws.com',
         },
       ],
-      zone: delegatedZone,
-    })
-
-    new CnameRecord(this, 'cname', {
-      domainName: '87fc35972fbfb4c4.vercel-dns-017.com',
-      recordName: `app.${zoneName}`,
       zone: delegatedZone,
     })
   }
