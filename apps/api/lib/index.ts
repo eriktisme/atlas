@@ -4,6 +4,7 @@ import type { Construct } from 'constructs'
 import { HonoRestApi } from '@internal/cdk-utils/hono-rest-api'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 import { EventBus } from 'aws-cdk-lib/aws-events'
+import { Cors } from 'aws-cdk-lib/aws-apigateway'
 
 interface Props extends StackProps {
   databaseUrl: string
@@ -39,7 +40,16 @@ export class ApiService extends Stack {
       projectName: props.projectName,
       restApiProps: {
         defaultCorsPreflightOptions: {
-          allowOrigins: ['*'],
+          allowCredentials: true,
+          allowMethods: Cors.ALL_METHODS,
+          allowHeaders: [
+            'Accept',
+            'Authorization',
+            'Origin',
+            'X-Requested-With',
+            'Content-Type',
+          ],
+          allowOrigins: Cors.ALL_ORIGINS,
         },
       },
       serviceName: props.serviceName,

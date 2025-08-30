@@ -1,6 +1,5 @@
 import { OpenAPIHono, z } from '@hono/zod-openapi'
 import type { Bindings } from '@internal/lambda-utils/hono'
-import { cors } from 'hono/cors'
 import { app as eventsRoutes } from './events'
 import { app as batchRoutes } from './batch'
 import type { MiddlewareHandler } from 'hono'
@@ -46,24 +45,6 @@ const auth: MiddlewareHandler = async (c, next) => {
 }
 
 export const app = new OpenAPIHono<{ Bindings: Bindings }>()
-
-app.use(
-  '*',
-  cors({
-    origin: '*',
-    allowHeaders: [
-      'Authorization',
-      'Origin',
-      'X-Requested-With',
-      'Content-Type',
-      'Accept',
-    ],
-    allowMethods: ['POST', 'GET', 'OPTIONS', 'DELETE'],
-    exposeHeaders: [],
-    maxAge: 600,
-    credentials: true,
-  })
-)
 
 app.use('*', auth)
 

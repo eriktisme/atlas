@@ -8,6 +8,7 @@ import { PersistCapturedEventsToDatabase } from '../constructs/persist-captured-
 import { PersistIdentifiedPeopleToDatabase } from '../constructs/persist-identified-people-to-database'
 import { PersistIdentifiedGroupsToDatabase } from '../constructs/persist-identified-groups-to-database'
 import { PersistCapturedEventsToStorage } from '../constructs/persist-captured-events-to-storage'
+import { Cors } from 'aws-cdk-lib/aws-apigateway'
 
 interface Props extends StackProps {
   databaseUrl: string
@@ -43,7 +44,16 @@ export class IngestionService extends Stack {
       projectName: props.projectName,
       restApiProps: {
         defaultCorsPreflightOptions: {
-          allowOrigins: ['*'],
+          allowCredentials: true,
+          allowHeaders: [
+            'Accept',
+            'Authorization',
+            'Origin',
+            'X-Requested-With',
+            'Content-Type',
+          ],
+          allowMethods: ['POST'],
+          allowOrigins: Cors.ALL_ORIGINS,
         },
       },
       serviceName: props.serviceName,

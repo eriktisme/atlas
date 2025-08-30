@@ -5,6 +5,7 @@ import type { Bindings } from '@internal/lambda-utils/hono'
 import { app as v1Routes } from './routes/v1'
 import { app as healthRoutes } from './routes/health'
 import { swaggerUI } from '@hono/swagger-ui'
+import { cors } from 'hono/cors'
 
 const app = new OpenAPIHono<{ Bindings: Bindings }>({
   defaultHook: (result, c) => {
@@ -17,6 +18,25 @@ const app = new OpenAPIHono<{ Bindings: Bindings }>({
 })
 
 app.use(secureHeaders())
+
+app.use('*', (c, next) => {
+  const origin = c.req.header('origin') || c.req.header('Origin') || '*'
+
+  const corsMiddleware = cors({
+    allowHeaders: [
+      'Authorization',
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+    ],
+    credentials: true,
+    maxAge: 600,
+    origin,
+  })
+
+  return corsMiddleware(c, next)
+})
 
 app.route('v1', v1Routes)
 

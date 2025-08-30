@@ -48,8 +48,8 @@ export class Atlas {
     }
 
     this.endpoints = {
-      api: `https://api.${this.config.region}.erikvandam.dev`,
-      ingestion: `https://ingestion.${this.config.region}.erikvandam.dev`,
+      api: `https://api.${this.config.region}.atlas.erikvandam.dev`,
+      ingestion: `https://ingestion.${this.config.region}.atlas.erikvandam.dev`,
     }
     this.events = new Events(this)
     this.persistence = new Persistence(this)

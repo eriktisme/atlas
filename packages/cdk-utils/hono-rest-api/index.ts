@@ -69,22 +69,6 @@ export class HonoRestApi extends Construct {
 
     const restApi = new LambdaRestApi(this, 'api', {
       ...props.restApiProps,
-      defaultCorsPreflightOptions: {
-        allowCredentials: true,
-        allowHeaders: [
-          'Authorization',
-          'Origin',
-          'X-Requested-With',
-          'Content-Type',
-          'Accept',
-        ],
-        allowMethods: Cors.ALL_METHODS,
-        allowOrigins: props.restApiProps?.defaultCorsPreflightOptions
-          ?.allowOrigins ?? [
-          `https://app.${zoneName}`,
-          'http://localhost:3000',
-        ],
-      },
       deployOptions: {
         tracingEnabled: true,
       },
