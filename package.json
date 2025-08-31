@@ -3,6 +3,7 @@
   "scripts": {
     "build": "turbo build --parallel",
     "build:app": "turbo build --filter=app",
+    "build:website": "turbo build --filter=website",
     "cdk": "turbo cdk --parallel",
     "cdk:api": "turbo cdk --filter=api",
     "cdk:engine": "turbo cdk --filter=engine",
@@ -12,13 +13,16 @@
     "cdk:synth": "turbo cdk:synth",
     "dev": "turbo dev --parallel",
     "dev:app": "turbo dev --filter=app",
+    "dev:website": "turbo dev --filter=website",
     "format": "prettier --write --check .",
     "lint": "turbo lint",
     "start:app": "turbo start --filter=app",
+    "start:website": "turbo start --filter=website",
     "test": "turbo test --parallel",
     "test:coverage": "turbo test:coverage --parallel",
     "test:e2e": "turbo test:e2e --parallel",
     "test:e2e:app": "turbo test:e2e --filter=app-e2e",
+    "test:website": "turbo test --filter=website",
     "typeCheck": "turbo typeCheck"
   },
   "dependencies": {

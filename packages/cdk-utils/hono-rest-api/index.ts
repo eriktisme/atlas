@@ -1,7 +1,7 @@
 import { Construct } from 'constructs'
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda'
 import type { LambdaRestApiProps } from 'aws-cdk-lib/aws-apigateway'
-import { Cors, EndpointType, LambdaRestApi } from 'aws-cdk-lib/aws-apigateway'
+import { EndpointType, LambdaRestApi } from 'aws-cdk-lib/aws-apigateway'
 import type { IPublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import { AaaaRecord, ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import {
