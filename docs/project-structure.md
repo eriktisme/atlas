@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the structure of the project, 
+This document outlines the structure of the project,
 including the purpose of key directories and files.
 
 ### **Directories**
