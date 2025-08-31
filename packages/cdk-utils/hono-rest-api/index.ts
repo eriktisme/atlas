@@ -27,6 +27,7 @@ export interface HonoRestApiProps
 
 export class HonoRestApi extends Construct {
   handler: NodeJSLambda
+  api: LambdaRestApi
 
   constructor(scope: Construct, id: string, props: HonoRestApiProps) {
     super(scope, id)
@@ -67,7 +68,7 @@ export class HonoRestApi extends Construct {
       authType: FunctionUrlAuthType.NONE,
     })
 
-    const restApi = new LambdaRestApi(this, 'api', {
+    this.api = new LambdaRestApi(this, 'api', {
       ...props.restApiProps,
       deployOptions: {
         tracingEnabled: true,
@@ -84,7 +85,7 @@ export class HonoRestApi extends Construct {
       validation: CertificateValidation.fromDns(props.hostedZone),
     })
 
-    restApi.addDomainName('default', {
+    this.api.addDomainName('default', {
       certificate,
       domainName,
     })
@@ -92,13 +93,13 @@ export class HonoRestApi extends Construct {
     new ARecord(this, 'api-a', {
       recordName: domainName,
       zone: props.hostedZone,
-      target: RecordTarget.fromAlias(new ApiGateway(restApi)),
+      target: RecordTarget.fromAlias(new ApiGateway(this.api)),
     })
 
     new AaaaRecord(this, 'api-aaaa', {
       recordName: domainName,
       zone: props.hostedZone,
-      target: RecordTarget.fromAlias(new ApiGateway(restApi)),
+      target: RecordTarget.fromAlias(new ApiGateway(this.api)),
     })
   }
 }

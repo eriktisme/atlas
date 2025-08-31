@@ -1,14 +1,13 @@
 import type { StackProps } from '@internal/cdk-utils/stack'
 import { Stack } from '@internal/cdk-utils/stack'
 import type { Construct } from 'constructs'
-import { HonoRestApi } from '@internal/cdk-utils/hono-rest-api'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 import { EventBus } from 'aws-cdk-lib/aws-events'
 import { PersistCapturedEventsToDatabase } from '../constructs/persist-captured-events-to-database'
 import { PersistIdentifiedPeopleToDatabase } from '../constructs/persist-identified-people-to-database'
 import { PersistIdentifiedGroupsToDatabase } from '../constructs/persist-identified-groups-to-database'
 import { PersistCapturedEventsToStorage } from '../constructs/persist-captured-events-to-storage'
-import { Cors } from 'aws-cdk-lib/aws-apigateway'
+import { Api } from '../constructs/api'
 
 interface Props extends StackProps {
   databaseUrl: string
@@ -27,40 +26,10 @@ export class IngestionService extends Stack {
 
     const eventBus = EventBus.fromEventBusArn(this, 'event-bus', eventBusArn)
 
-    const hostedZone = this.getDelegatedHostedZone(props.domainName)
-
-    const { handler } = new HonoRestApi(this, 'api', {
+    new Api(this, 'api', {
       domainName: props.domainName,
-      env: props.env,
-      handlerProps: {
-        entry: './src/index.ts',
-        environment: {
-          DATABASE_URL: props.databaseUrl,
-          EVENT_BUS_NAME: eventBus.eventBusName,
-        },
-        serviceName: props.serviceName,
-      },
-      hostedZone,
-      projectName: props.projectName,
-      restApiProps: {
-        defaultCorsPreflightOptions: {
-          allowCredentials: true,
-          allowHeaders: [
-            'Accept',
-            'Authorization',
-            'Origin',
-            'X-Requested-With',
-            'Content-Type',
-          ],
-          allowMethods: ['POST'],
-          allowOrigins: Cors.ALL_ORIGINS,
-        },
-      },
-      serviceName: props.serviceName,
-      stage: props.stage,
+      eventBus,
     })
-
-    eventBus.grantPutEventsTo(handler)
 
     new PersistCapturedEventsToStorage(
       this,
