@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@internal/tsconfig/node.json",
+  "compilerOptions": {
+    //
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

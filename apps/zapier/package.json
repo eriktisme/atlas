@@ -1,0 +1,19 @@
+{
+  "name": "zapier",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "eslint '**/*.{ts,tsx}'",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "typeCheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "zapier-platform-core": "^17.7.0"
+  },
+  "devDependencies": {
+    "@internal/tsconfig": "workspace:*",
+    "jest": "^29.7.0",
+    "zapier-platform-cli": "^17.7.0"
+  }
+}
