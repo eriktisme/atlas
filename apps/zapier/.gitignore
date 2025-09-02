@@ -1,0 +1,12 @@
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+
+# Testing
+coverage
+
+# Zapier Asssets
+build
+
+.zapierapprc

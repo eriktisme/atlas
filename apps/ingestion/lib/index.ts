@@ -27,6 +27,7 @@ export class IngestionService extends Stack {
     const eventBus = EventBus.fromEventBusArn(this, 'event-bus', eventBusArn)
 
     new Api(this, 'api', {
+      databaseUrl: props.databaseUrl,
       domainName: props.domainName,
       eventBus,
     })

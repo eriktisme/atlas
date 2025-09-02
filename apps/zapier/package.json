@@ -1,0 +1,16 @@
+{
+  "name": "zapier",
+  "version": "0.1.1",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint '**/*.{ts,tsx}'",
+    "test": "jest --passWithNoTests",
+    "typeCheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "zapier-platform-core": "17.7.0"
+  },
+  "devDependencies": {
+    "zapier-platform-cli": "^17.7.0"
+  }
+}

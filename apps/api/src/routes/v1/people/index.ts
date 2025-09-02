@@ -189,7 +189,7 @@ app.openapi(index, async (c) => {
   const response = result.map((person) => {
     return Person.safeParse({
       id: person.id,
-      properties: person.properties,
+      properties: person.properties ?? {},
     })
   })
 
@@ -247,7 +247,7 @@ app.openapi(get, async (c) => {
 
   const response = Person.safeParse({
     id: result.id,
-    properties: result.properties,
+    properties: result.properties ?? {},
   })
 
   if (!response.success) {
@@ -295,7 +295,7 @@ app.openapi(deleteRoute, async (c) => {
 
   const response = Person.safeParse({
     id: result.id,
-    properties: result.properties,
+    properties: result.properties ?? {},
   })
 
   if (!response.success) {
