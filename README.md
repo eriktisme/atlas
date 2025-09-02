@@ -10,12 +10,11 @@ The project is designed to be scalable, resilient, and efficient, leveraging the
 ## Project Description
 
 Atlas is a globally distributed analytics infrastructure designed for SaaS teams that serve multiple tenants.
-It provides a secure, scalable data ingestion and usage tracking platform, 
-optimized for multi-tenant environments where analytics, 
+It provides a secure, scalable data ingestion and usage tracking platform,
+optimized for multi-tenant environments where analytics,
 quotas, and compliance are critical.
 
 ## Architecture Overview
-
 
 ## Getting started
 

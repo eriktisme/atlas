@@ -1,4 +1,4 @@
-import zapier, { defineApp } from 'zapier-platform-core'
+import { defineApp, version as platformVersion } from 'zapier-platform-core'
 
 import { version } from '../package.json'
 
@@ -8,7 +8,7 @@ import { newEvent, newEventKey } from './triggers/new-event'
 
 export default defineApp({
   version,
-  platformVersion: zapier.version,
+  platformVersion,
   authentication,
   beforeRequest: [includeApiKey],
   afterResponse: [],
@@ -16,4 +16,5 @@ export default defineApp({
     [newEventKey]: newEvent,
   },
   creates: {},
+  resources: {},
 })
