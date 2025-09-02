@@ -23,7 +23,6 @@ export const integrations = pgTable('integrations', {
     .notNull()
     .defaultNow(),
   id: uuid('id').primaryKey(),
-  label: varchar('label', { length: 255 }).notNull(),
   provider: integrationProviderTypeEnum('provider').notNull(),
   tenantId: varchar('tenant_id')
     .references(() => tenants.id, { onDelete: 'cascade' })

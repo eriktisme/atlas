@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     .values({
       id: v4(),
       type: 'api_webhook',
-      label: 'Zapier',
+      provider: 'zapier',
       tenantId: apiKey.tenantId,
     })
     .returning()

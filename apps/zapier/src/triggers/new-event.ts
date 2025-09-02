@@ -12,9 +12,38 @@ const newEvent: Trigger = {
   operation: {
     type: 'hook',
     perform: (z, bundle) => {
-      // This function will not be called, because it's a hook trigger.
+      return [bundle.cleanedRequest]
+    },
+    performSubscribe: async (z, bundle) => {
+      const { apiKey, region, targetUrl } = bundle.authData
 
-      return Promise.resolve([])
+      const response = await z.request({
+        url: `https://app.${region}.atlas.erikvandam.dev/api/webhooks/zapier`,
+        method: 'POST',
+        headers: { Authorization: `Bearer ${apiKey}` },
+        body: {
+          targetUrl,
+          event: newEventKey,
+          apiKey,
+        },
+      })
+
+      return response.data
+    },
+    performUnsubscribe: async (z, bundle) => {
+      const { region } = bundle.authData
+
+      if (!bundle.subscribeData || !bundle.subscribeData.id) {
+        throw new Error('Missing integration id for unsubscribe operation.')
+      }
+
+      const response = await z.request({
+        url: `https://app.${region}.atlas.erikvandam.dev/api/webhooks/zapier/${bundle.subscribeData.id}`,
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${bundle.authData.apiKey}` },
+      })
+
+      return response.data
     },
   },
 }
