@@ -2,7 +2,11 @@ import { WebhookRegistrationBodySchema } from '@/app/webhooks/zapier/schema'
 import { NextResponse } from 'next/server'
 import { createConnection } from '@internal/database/connection'
 import { env } from '@/env'
-import { apiKeys, apiWebhook, integrations } from '@internal/database/schema'
+import {
+  apiKeys,
+  webhookIntegration,
+  integrations,
+} from '@internal/database/schema'
 import { v4 } from 'uuid'
 import { eq } from 'drizzle-orm'
 
@@ -55,7 +59,7 @@ export async function POST(request: Request) {
   }
 
   const [webhook] = await connection
-    .insert(apiWebhook)
+    .insert(webhookIntegration)
     .values({
       integrationId: integration.id,
       url: body.data.targetUrl,

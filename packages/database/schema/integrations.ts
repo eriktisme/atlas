@@ -30,7 +30,7 @@ export const integrations = pgTable('integrations', {
   type: integrationTypeEnum('type').notNull(),
 })
 
-export const apiWebhook = pgTable('api_webhook', {
+export const webhookIntegration = pgTable('webhook_integration', {
   integrationId: uuid('integration_id')
     .references(() => integrations.id, { onDelete: 'cascade' })
     .primaryKey(),
