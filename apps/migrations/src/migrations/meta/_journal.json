@@ -29,6 +29,13 @@
       "when": 1756796580651,
       "tag": "0003_strange_mephistopheles",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1756808851357,
+      "tag": "0004_low_thanos",
+      "breakpoints": true
     }
   ]
 }
