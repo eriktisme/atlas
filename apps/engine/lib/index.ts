@@ -4,8 +4,10 @@ import type { Construct } from 'constructs'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 import { Archive, EventBus } from 'aws-cdk-lib/aws-events'
 import { PersistEvents } from '../constructs/persist-events'
+import { PublishEventsToIntegrations } from '../constructs/publish-events-to-integrations'
 
 interface Props extends StackProps {
+  databaseUrl: string
   domainName: string
 }
 
@@ -38,6 +40,11 @@ export class EngineService extends Stack {
     })
 
     new PersistEvents(this, 'persist-events', {
+      eventBus,
+    })
+
+    new PublishEventsToIntegrations(this, 'publish-events-to-integrations', {
+      databaseUrl: props.databaseUrl,
       eventBus,
     })
   }

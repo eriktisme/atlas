@@ -20,6 +20,7 @@ new RootStack(app, 'engine-service', {
   regions: ['eu-west-1'],
   service: {
     props: {
+      databaseUrl: process.env.DATABASE_URL as string,
       domainName: process.env.DOMAIN_NAME as string,
       projectName,
       serviceName: 'engine',
