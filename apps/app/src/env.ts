@@ -13,6 +13,9 @@ export const env = createEnv({
     NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z.string().min(1).startsWith('/'),
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().min(1).startsWith('/'),
 
+    // Added by Atlas
+    NEXT_PUBLIC_ATLAS_PUBLISHABLE_KEY: z.string(),
+
     // Added by Vercel
     NEXT_PUBLIC_VERCEL_URL: z.string(),
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: z.string(),
@@ -26,6 +29,8 @@ export const env = createEnv({
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
+    NEXT_PUBLIC_ATLAS_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_ATLAS_PUBLISHABLE_KEY,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL:
       process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
