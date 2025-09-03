@@ -13,7 +13,7 @@ export const Hero = () => {
         informed decisions and grow your business.
       </p>
       <Link
-        href={`app.eu-west-1.${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}/auth/sign-up`}
+        href={`https://app.eu-west-1.${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}/auth/sign-up`}
       >
         <Button className="mt-8">Get Started for Free</Button>
       </Link>

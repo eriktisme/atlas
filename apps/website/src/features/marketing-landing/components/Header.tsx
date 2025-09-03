@@ -20,12 +20,12 @@ export const Header = () => {
       </div>
       <nav className="flex items-center gap-2.5">
         <Link
-          href={`app.eu-west-1.${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}/auth/sign-in`}
+          href={`https://app.eu-west-1.${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}/auth/sign-in`}
         >
           <Button variant="ghost">Sign in</Button>
         </Link>
         <Link
-          href={`app.eu-west-1.${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}/auth/sign-up`}
+          href={`https://app.eu-west-1.${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}/auth/sign-up`}
         >
           <Button>Get Started</Button>
         </Link>
