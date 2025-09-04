@@ -5,7 +5,7 @@ const initializeSentry = (): ReturnType<typeof init> =>
   init({
     dsn: env.NEXT_PUBLIC_SENTRY_DSN,
 
-    tracesSampleRate: 0.2,
+    tracesSampleRate: 1,
 
     debug: false,
   })

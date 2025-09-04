@@ -1,9 +1,8 @@
 import { z } from 'zod'
 import type { SQSEvent } from 'aws-lambda'
 import { EventCapturedEvent } from '@internal/events-schema/events'
-import { Tracer } from '@aws-lambda-powertools/tracer'
-import type { PutObjectCommandInput } from '@aws-sdk/client-s3'
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import type { PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { ulid } from 'ulid'
 
 const ConfigSchema = z.object({
@@ -14,11 +13,11 @@ const config = ConfigSchema.parse({
   destinationBucket: process.env.DESTINATION_BUCKET,
 })
 
-const tracer = new Tracer()
+interface Deps {
+  s3Client: S3Client
+}
 
-const s3Client = tracer.captureAWSv3Client(new S3Client())
-
-export const buildHandler = async (event: SQSEvent) => {
+export const buildHandler = async (event: SQSEvent, deps: Deps) => {
   const objects: PutObjectCommandInput[] = event.Records.map((record) => {
     const { data, metadata } = EventCapturedEvent.fromEventBridgeEvent(
       JSON.parse(record.body)
@@ -41,6 +40,6 @@ export const buildHandler = async (event: SQSEvent) => {
   })
 
   await Promise.allSettled(
-    objects.map((input) => s3Client.send(new PutObjectCommand(input)))
+    objects.map((input) => deps.s3Client.send(new PutObjectCommand(input)))
   )
 }

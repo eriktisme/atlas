@@ -11,18 +11,16 @@ import {
 import { ApiGateway } from 'aws-cdk-lib/aws-route53-targets'
 import type { NodeJSLambdaProps } from '../lambda'
 import { NodeJSLambda } from '../lambda'
-import type { StackProps } from '../stack'
+import { Stack } from '../stack'
 import type { ClerkProps } from '../types'
 
-export interface HonoRestApiProps
-  extends Pick<StackProps, 'projectName' | 'stage' | 'env'> {
+export interface HonoRestApiProps {
   clerk?: ClerkProps
   databaseUrl?: string
   domainName: string
   handlerProps: NodeJSLambdaProps
   hostedZone: IPublicHostedZone
   restApiProps?: Omit<LambdaRestApiProps, 'handler'>
-  serviceName: string
 }
 
 export class HonoRestApi extends Construct {
@@ -32,14 +30,17 @@ export class HonoRestApi extends Construct {
   constructor(scope: Construct, id: string, props: HonoRestApiProps) {
     super(scope, id)
 
-    if (!props.env?.region) {
+    const { projectName, region, sentryDsn, serviceName, stage } =
+      Stack.getStack(this)
+
+    if (!region) {
       throw new Error('Region is required in the environment configuration.')
     }
 
-    let zoneName = `${props.env.region}.${props.domainName}`
+    let zoneName = `${region}.${props.domainName}`
 
-    if (props.stage !== 'prod') {
-      zoneName = `${props.env.region}/${props.stage}.envs.${props.domainName}`
+    if (stage !== 'prod') {
+      zoneName = `${region}/${stage}.envs.${props.domainName}`
     }
 
     this.handler = new NodeJSLambda(this, 'handler', {
@@ -47,10 +48,18 @@ export class HonoRestApi extends Construct {
       environment: {
         ...props.handlerProps.environment,
         DOMAIN_NAME: zoneName,
-        PROJECT_NAME: props.projectName,
-        STAGE: props.stage,
+        PROJECT_NAME: projectName,
+        STAGE: stage,
       },
     })
+
+    this.handler.addFunctionUrl({
+      authType: FunctionUrlAuthType.NONE,
+    })
+
+    if (sentryDsn) {
+      this.handler.addEnvironment('SENTRY_DSN', sentryDsn)
+    }
 
     if (props.databaseUrl) {
       this.handler.addEnvironment('DATABASE_URL', props.databaseUrl)
@@ -64,10 +73,6 @@ export class HonoRestApi extends Construct {
       this.handler.addEnvironment('CLERK_SECRET_KEY', props.clerk.secretKey)
     }
 
-    this.handler.addFunctionUrl({
-      authType: FunctionUrlAuthType.NONE,
-    })
-
     this.api = new LambdaRestApi(this, 'api', {
       ...props.restApiProps,
       deployOptions: {
@@ -75,10 +80,10 @@ export class HonoRestApi extends Construct {
       },
       endpointTypes: [EndpointType.REGIONAL],
       handler: this.handler,
-      restApiName: `${props.env.region}-${props.stage}-${props.projectName}-${props.serviceName}-api`,
+      restApiName: `${region}-${stage}-${projectName}-${serviceName}-api`,
     })
 
-    const domainName = `${props.serviceName}.${zoneName}`
+    const domainName = `${serviceName}.${zoneName}`
 
     const certificate = new Certificate(this, 'certificate', {
       domainName,

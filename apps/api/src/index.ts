@@ -6,16 +6,25 @@ import { app as v1Routes } from './routes/v1'
 import { app as healthRoutes } from './routes/health'
 import { swaggerUI } from '@hono/swagger-ui'
 import { cors } from 'hono/cors'
+import { captureException, flush, init } from '@sentry/aws-serverless'
+import { z } from 'zod'
 
-const app = new OpenAPIHono<{ Bindings: Bindings }>({
-  defaultHook: (result, c) => {
-    if (!result.success) {
-      return c.json({ success: false, errors: result.error.errors }, 422)
-    }
-
-    return c.json({ success: true }, 200)
-  },
+const ConfigSchema = z.object({
+  domainName: z.string(),
+  sentryDsn: z.string().optional(),
 })
+
+const config = ConfigSchema.parse({
+  domainName: process.env.DOMAIN_NAME,
+  sentryDsn: process.env.SENTRY_DSN,
+})
+
+init({
+  dsn: config.sentryDsn,
+  tracesSampleRate: 1,
+})
+
+const app = new OpenAPIHono<{ Bindings: Bindings }>()
 
 app.use(secureHeaders())
 
@@ -36,6 +45,14 @@ app.use('*', (c, next) => {
   })
 
   return corsMiddleware(c, next)
+})
+
+app.onError((error, c) => {
+  captureException(error)
+
+  void flush(0)
+
+  return c.json({ message: 'Internal Server Error' }, 500)
 })
 
 app.route('v1', v1Routes)
