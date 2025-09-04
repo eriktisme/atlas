@@ -13,24 +13,41 @@ export class PublishEventsToIntegrations extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id)
 
-    new EventConsumer(this, 'consumer', {
-      eventBus: props.eventBus,
-      handlerProps: {
-        serviceName: RegionStack.getStack(this).serviceName,
-        entry: './src/events/publish-events-to-integrations/index.ts',
-        environment: {
-          DATABASE_URL: props.databaseUrl,
+    const { monitoring } = RegionStack.getStack(this)
+
+    const { deadLetterQueue, handler, queue } = new EventConsumer(
+      this,
+      'consumer',
+      {
+        eventBus: props.eventBus,
+        handlerProps: {
+          entry: './src/events/publish-events-to-integrations/index.ts',
+          environment: {
+            DATABASE_URL: props.databaseUrl,
+          },
         },
-      },
-      eventSourceProps: {
-        batchSize: 25,
-        maxConcurrency: 2,
-        maxBatchingWindow: Duration.seconds(5),
-      },
-      eventPattern: {
-        detailType: ['event.captured'],
-        source: ['ingestion'],
-      },
-    })
+        eventSourceProps: {
+          batchSize: 25,
+          maxConcurrency: 2,
+          maxBatchingWindow: Duration.seconds(5),
+        },
+        eventPattern: {
+          detailType: ['event.captured'],
+          source: ['ingestion'],
+        },
+      }
+    )
+
+    if (monitoring) {
+      monitoring
+        .addLargeHeader('Events to Integrations')
+        .monitorLambdaFunction({
+          lambdaFunction: handler,
+        })
+        .monitorSqsQueueWithDlq({
+          queue,
+          deadLetterQueue,
+        })
+    }
   }
 }

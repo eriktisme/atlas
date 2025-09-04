@@ -25,6 +25,9 @@ new RootStack(app, 'engine-service', {
       projectName,
       serviceName: 'engine',
       stage,
+      alarmProps: {
+        webhookUrl: process.env.SLACK_WEBHOOK_URL as string,
+      },
     },
     stack: EngineService,
   },
