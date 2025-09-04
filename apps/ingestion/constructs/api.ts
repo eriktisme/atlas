@@ -3,6 +3,7 @@ import { HonoRestApi } from '@internal/cdk-utils/hono-rest-api'
 import { Cors } from 'aws-cdk-lib/aws-apigateway'
 import { RegionStack } from '@internal/cdk-utils/region-stack'
 import type { IEventBus } from 'aws-cdk-lib/aws-events'
+import { Duration } from 'aws-cdk-lib'
 
 interface Props {
   databaseUrl: string
@@ -18,7 +19,7 @@ export class Api extends Construct {
 
     const hostedZone = stack.getDelegatedHostedZone(props.domainName)
 
-    const { handler } = new HonoRestApi(this, 'api', {
+    const { handler, api } = new HonoRestApi(this, 'api', {
       domainName: props.domainName,
       handlerProps: {
         entry: './src/index.ts',
@@ -45,5 +46,31 @@ export class Api extends Construct {
     })
 
     props.eventBus.grantPutEventsTo(handler)
+
+    stack.monitoring.addLargeHeader('Atlas Ingestion API')
+      .monitorApiGateway({
+        api,
+        addLatencyP95Alarm: {
+          Warning: {
+            maxLatency: Duration.seconds(10),
+            datapointsToAlarm: 1,
+          },
+        },
+        add5XXFaultCountAlarm: {
+          Warning: {
+            maxErrorCount: 5,
+            datapointsToAlarm: 1,
+          },
+        },
+        add4XXErrorCountAlarm: {
+          Warning: {
+            maxErrorCount: 5,
+            datapointsToAlarm: 1,
+          },
+        },
+      })
+      .monitorLambdaFunction({
+        lambdaFunction: handler,
+      })
   }
 }

@@ -33,14 +33,10 @@ export class HonoRestApi extends Construct {
     const { projectName, region, sentryDsn, serviceName, stage } =
       RegionStack.getStack(this)
 
-    if (!region) {
-      throw new Error('Region is required in the environment configuration.')
-    }
-
     let zoneName = `${region}.${props.domainName}`
 
     if (stage !== 'prod') {
-      zoneName = `${region}/${stage}.envs.${props.domainName}`
+      zoneName = `${region}.${stage}.envs.${props.domainName}`
     }
 
     this.handler = new NodeJSLambda(this, 'handler', {

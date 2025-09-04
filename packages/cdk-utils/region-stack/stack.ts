@@ -6,6 +6,12 @@ import type { IPublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import { PublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import type { IEventBus } from 'aws-cdk-lib/aws-events'
 import { EventBus } from 'aws-cdk-lib/aws-events'
+import { Topic } from 'aws-cdk-lib/aws-sns'
+import {
+  MonitoringFacade,
+  SnsAlarmActionStrategy,
+} from 'cdk-monitoring-constructs'
+import { ServicePrincipal } from 'aws-cdk-lib/aws-iam'
 
 export interface RegionStackProps extends BaseStackProps {
   projectName: string
@@ -35,25 +41,53 @@ export class RegionStack extends BaseStack {
    */
   readonly sentryDsn?: string
 
+  /**
+   * The SNS topic for alarms.
+   */
+  readonly alarmTopic: Topic
+
+  /**
+   * The monitoring facade for setting up alarms and monitoring.
+   */
+  readonly monitoring: MonitoringFacade
+
   constructor(scope: Construct, id: string, props: RegionStackProps) {
     if (!props.env?.region) {
       throw new Error('Region is required in the environment configuration.')
     }
 
+    const stackName = props.stackName ??
+      [
+        ...scope.node.scopes.map((p) => p.node.id).filter((v) => !!v),
+        id,
+      ].join('-')
+
     super(scope, id, {
       ...props,
-      stackName:
-        props.stackName ??
-        [
-          ...scope.node.scopes.map((p) => p.node.id).filter((v) => !!v),
-          id,
-        ].join('-'),
+      stackName,
     })
 
     this.stage = props.stage
     this.projectName = props.projectName
     this.serviceName = props.serviceName
     this.sentryDsn = props.sentryDsn
+
+    this.alarmTopic = new Topic(this, 'alarm-topic', {
+      topicName: `${props.env.region}-${props.stage}-${props.projectName}-${props.serviceName}-alarms`,
+      enforceSSL: true,
+    })
+
+    this.alarmTopic.grantPublish(new ServicePrincipal('cloudwatch.amazonaws.com'))
+
+    this.monitoring = new MonitoringFacade(this, `${stackName}-monitoring`, {
+      alarmFactoryDefaults: {
+        action: new SnsAlarmActionStrategy({
+          onAlarmTopic: this.alarmTopic,
+        }),
+        actionsEnabled: true,
+        alarmNamePrefix: 'Atlas',
+      },
+    })
   }
 
   getDelegatedHostedZone(zoneName: string): IPublicHostedZone {
