@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import type { SQSEvent } from 'aws-lambda'
-import { Tracer } from '@aws-lambda-powertools/tracer'
 import { createConnection } from '@internal/database/connection'
 import { onConflictDoUpdate } from '@internal/database/on'
 import { people } from '@internal/database/schema'
@@ -13,8 +12,6 @@ const ConfigSchema = z.object({
 const config = ConfigSchema.parse({
   databaseUrl: process.env.DATABASE_URL,
 })
-
-new Tracer()
 
 const connection = createConnection(config.databaseUrl)
 

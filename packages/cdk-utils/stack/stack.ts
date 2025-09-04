@@ -9,6 +9,7 @@ import { EventBus } from 'aws-cdk-lib/aws-events'
 
 export interface StackProps extends BaseStackProps {
   projectName: string
+  sentryDsn?: string
   serviceName: string
   stage: string
 }
@@ -29,6 +30,11 @@ export class Stack extends BaseStack {
    */
   readonly serviceName: string
 
+  /**
+   * The Sentry DSN for error tracking, if provided.
+   */
+  readonly sentryDsn?: string
+
   constructor(scope: Construct, id: string, props: StackProps) {
     if (!props.env?.region) {
       throw new Error('Region is required in the environment configuration.')
@@ -47,6 +53,7 @@ export class Stack extends BaseStack {
     this.stage = props.stage
     this.projectName = props.projectName
     this.serviceName = props.serviceName
+    this.sentryDsn = props.sentryDsn
   }
 
   getDelegatedHostedZone(zoneName: string): IPublicHostedZone {

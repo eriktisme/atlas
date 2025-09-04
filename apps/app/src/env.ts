@@ -16,6 +16,9 @@ export const env = createEnv({
     // Added by Atlas
     NEXT_PUBLIC_ATLAS_PUBLISHABLE_KEY: z.string(),
 
+    // Added by Sentry
+    NEXT_PUBLIC_SENTRY_DSN: z.string().url(),
+
     // Added by Vercel
     NEXT_PUBLIC_VERCEL_URL: z.string(),
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: z.string(),
@@ -39,9 +42,12 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
+    NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:
       process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
+    SENTRY_ORG: process.env.SENTRY_ORG,
+    SENTRY_PROJECT: process.env.SENTRY_PROJECT,
   },
   /*
    * Due to how Next.js bundles environment variables on Edge and Client,
@@ -56,6 +62,10 @@ export const env = createEnv({
 
     // Database
     DATABASE_URL: z.string().min(1),
+
+    // Sentry
+    SENTRY_PROJECT: z.string().min(1),
+    SENTRY_ORG: z.string().min(1),
   },
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
 })

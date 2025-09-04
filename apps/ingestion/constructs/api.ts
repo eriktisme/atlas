@@ -20,10 +20,6 @@ export class Api extends Construct {
 
     const { handler } = new HonoRestApi(this, 'api', {
       domainName: props.domainName,
-      env: {
-        region: stack.region,
-        account: stack.account,
-      },
       handlerProps: {
         entry: './src/index.ts',
         environment: {
@@ -33,7 +29,6 @@ export class Api extends Construct {
         serviceName: stack.serviceName,
       },
       hostedZone,
-      projectName: stack.projectName,
       restApiProps: {
         defaultCorsPreflightOptions: {
           allowCredentials: true,
@@ -48,8 +43,6 @@ export class Api extends Construct {
           allowOrigins: Cors.ALL_ORIGINS,
         },
       },
-      serviceName: stack.serviceName,
-      stage: stack.stage,
     })
 
     props.eventBus.grantPutEventsTo(handler)

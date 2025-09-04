@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import type { SQSEvent } from 'aws-lambda'
-import { Tracer } from '@aws-lambda-powertools/tracer'
 import { createConnection } from '@internal/database/connection'
 import { integrations, webhookIntegration } from '@internal/database/schema'
 import { EventCapturedEvent } from '@internal/events-schema/events'
@@ -14,8 +13,6 @@ const ConfigSchema = z.object({
 const config = ConfigSchema.parse({
   databaseUrl: process.env.DATABASE_URL,
 })
-
-new Tracer()
 
 const logger = new Logger()
 

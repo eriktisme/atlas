@@ -18,6 +18,7 @@
     "@internal/design-system": "workspace:*",
     "@internal/next-config": "workspace:*",
     "@internal/seo": "workspace:*",
+    "@sentry/nextjs": "^9.22.0",
     "@t3-oss/env-nextjs": "^0.11.1",
     "@tanstack/react-query": "^5.83.0",
     "@tanstack/react-table": "^8.21.3",
