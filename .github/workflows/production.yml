@@ -152,7 +152,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
           aws-region: eu-west-1
 
-      - run: pnpm cdk:api -- deploy --all --require-approval never
+      - run: pnpm cdk:backend-api -- deploy --all --require-approval never
 
       - run: pnpm cdk:ingestion -- deploy --all --require-approval never
 

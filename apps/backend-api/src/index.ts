@@ -48,11 +48,18 @@ app.use('*', (c, next) => {
 })
 
 app.onError((error, c) => {
+  const lambdaContext = c.env.lambdaContext
+
   captureException(error)
 
   void flush(0)
 
-  return c.json({ message: 'Internal Server Error' }, 500)
+  return c.json({
+    statusCode: 500,
+    type: 'internal_error',
+    code: 'internal_error',
+    requestId: lambdaContext.awsRequestId,
+  }, 500)
 })
 
 app.route('v1', v1Routes)
@@ -60,6 +67,7 @@ app.route('v1', v1Routes)
 app.openAPIRegistry.registerComponent('securitySchemes', 'Bearer', {
   type: 'http',
   scheme: 'bearer',
+  description: 'Private key, obtained under the "API Keys" section in the Atlas Developer Settings.',
 })
 
 app.get(
@@ -73,7 +81,7 @@ app.doc('/openapi', {
   openapi: '3.1.0',
   info: {
     version: '0.1.0',
-    title: 'Atlas API',
+    title: 'Atlas Backend API',
   },
 })
 

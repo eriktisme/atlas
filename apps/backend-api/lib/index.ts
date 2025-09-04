@@ -10,7 +10,7 @@ interface Props extends RegionStackProps {
   domainName: string
 }
 
-export class ApiService extends RegionStack {
+export class BackendApi extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 

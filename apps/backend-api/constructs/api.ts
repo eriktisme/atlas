@@ -48,7 +48,7 @@ export class Api extends Construct {
 
     if (stack.monitoring) {
       stack.monitoring
-        .addLargeHeader('Atlas API')
+        .addLargeHeader('Atlas Backend API')
         .monitorApiGateway({
           api,
         })

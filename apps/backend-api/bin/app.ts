@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import { App } from 'aws-cdk-lib'
-import { ApiService } from '../lib'
+import { BackendApi } from '../lib'
 import { projectName } from '@internal/cdk-utils'
 import { RootStack } from '@internal/cdk-utils/root-stack'
 
@@ -11,7 +11,7 @@ const app = new App({
 
 const stage = app.node.tryGetContext('stage') ?? 'prod'
 
-new RootStack(app, 'api-service', {
+new RootStack(app, 'backend-api', {
   crossRegionReferences: true,
   env: {
     region: 'eu-west-1',
@@ -26,10 +26,10 @@ new RootStack(app, 'api-service', {
       databaseUrl: process.env.DATABASE_URL as string,
       domainName: process.env.DOMAIN_NAME as string,
       projectName,
-      serviceName: 'api',
+      serviceName: 'backend-api',
       stage,
     },
-    stack: ApiService,
+    stack: BackendApi,
   },
   stage,
 })
