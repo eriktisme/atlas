@@ -1,17 +1,17 @@
-import type { StackProps } from '@internal/cdk-utils/stack'
-import { Stack } from '@internal/cdk-utils/stack'
+import type { RegionStackProps } from '@internal/cdk-utils/region-stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 import type { Construct } from 'constructs'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 import { Archive, EventBus } from 'aws-cdk-lib/aws-events'
 import { PersistEvents } from '../constructs/persist-events'
 import { PublishEventsToIntegrations } from '../constructs/publish-events-to-integrations'
 
-interface Props extends StackProps {
+interface Props extends RegionStackProps {
   databaseUrl: string
   domainName: string
 }
 
-export class EngineService extends Stack {
+export class EngineService extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 

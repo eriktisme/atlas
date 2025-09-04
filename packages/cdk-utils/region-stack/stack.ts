@@ -7,14 +7,14 @@ import { PublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import type { IEventBus } from 'aws-cdk-lib/aws-events'
 import { EventBus } from 'aws-cdk-lib/aws-events'
 
-export interface StackProps extends BaseStackProps {
+export interface RegionStackProps extends BaseStackProps {
   projectName: string
   sentryDsn?: string
   serviceName: string
   stage: string
 }
 
-export class Stack extends BaseStack {
+export class RegionStack extends BaseStack {
   /**
    * The stage of the project, e.g., 'dev', 'staging', 'prod'.
    */
@@ -35,7 +35,7 @@ export class Stack extends BaseStack {
    */
   readonly sentryDsn?: string
 
-  constructor(scope: Construct, id: string, props: StackProps) {
+  constructor(scope: Construct, id: string, props: RegionStackProps) {
     if (!props.env?.region) {
       throw new Error('Region is required in the environment configuration.')
     }
@@ -83,10 +83,10 @@ export class Stack extends BaseStack {
     return EventBus.fromEventBusArn(this, 'event-bus', eventBusArn)
   }
 
-  static getStack(scope: Construct): Stack {
-    const stack = Stack.of(scope)
+  static getStack(scope: Construct): RegionStack {
+    const stack = RegionStack.of(scope)
 
-    if (!(stack instanceof Stack)) {
+    if (!(stack instanceof RegionStack)) {
       throw Error(
         `Parent stack of ${scope.node.path} is not an instance of Stack`
       )

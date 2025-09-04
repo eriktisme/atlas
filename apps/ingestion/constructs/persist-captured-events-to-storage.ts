@@ -8,7 +8,7 @@ import {
 } from 'aws-cdk-lib/aws-s3'
 import { Duration, RemovalPolicy } from 'aws-cdk-lib'
 import { EventConsumer } from '@internal/cdk-utils/event-consumer'
-import { Stack } from '@internal/cdk-utils/stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 
 interface Props {
   eventBus: IEventBus
@@ -30,7 +30,7 @@ export class PersistCapturedEventsToStorage extends Construct {
     const { handler } = new EventConsumer(this, 'persist-events', {
       eventBus: props.eventBus,
       handlerProps: {
-        serviceName: Stack.getStack(this).serviceName,
+        serviceName: RegionStack.getStack(this).serviceName,
         entry: './src/events/persist-captured-events-to-storage/index.ts',
         environment: {
           DESTINATION_BUCKET: destination.bucketName,

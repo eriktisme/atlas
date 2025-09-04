@@ -1,17 +1,17 @@
-import type { StackProps } from '@internal/cdk-utils/stack'
-import { Stack } from '@internal/cdk-utils/stack'
+import type { RegionStackProps } from '@internal/cdk-utils/region-stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 import type { Construct } from 'constructs'
 import { HonoRestApi } from '@internal/cdk-utils/hono-rest-api'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 import { EventBus } from 'aws-cdk-lib/aws-events'
 import { Cors } from 'aws-cdk-lib/aws-apigateway'
 
-interface Props extends StackProps {
+interface Props extends RegionStackProps {
   databaseUrl: string
   domainName: string
 }
 
-export class ApiService extends Stack {
+export class ApiService extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 

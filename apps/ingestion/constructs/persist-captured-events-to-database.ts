@@ -2,7 +2,7 @@ import { Construct } from 'constructs'
 import type { IEventBus } from 'aws-cdk-lib/aws-events'
 import { EventConsumer } from '@internal/cdk-utils/event-consumer'
 import { Duration } from 'aws-cdk-lib'
-import { Stack } from '@internal/cdk-utils/stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 
 interface Props {
   databaseUrl: string
@@ -16,7 +16,7 @@ export class PersistCapturedEventsToDatabase extends Construct {
     new EventConsumer(this, 'persist-events', {
       eventBus: props.eventBus,
       handlerProps: {
-        serviceName: Stack.getStack(this).serviceName,
+        serviceName: RegionStack.getStack(this).serviceName,
         entry: './src/events/persist-captured-events-to-database/index.ts',
         environment: {
           DATABASE_URL: props.databaseUrl,

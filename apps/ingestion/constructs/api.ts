@@ -1,7 +1,7 @@
 import { Construct } from 'constructs'
 import { HonoRestApi } from '@internal/cdk-utils/hono-rest-api'
 import { Cors } from 'aws-cdk-lib/aws-apigateway'
-import { Stack } from '@internal/cdk-utils/stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 import type { IEventBus } from 'aws-cdk-lib/aws-events'
 
 interface Props {
@@ -14,7 +14,7 @@ export class Api extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id)
 
-    const stack = Stack.getStack(this)
+    const stack = RegionStack.getStack(this)
 
     const hostedZone = stack.getDelegatedHostedZone(props.domainName)
 

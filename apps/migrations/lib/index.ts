@@ -1,6 +1,6 @@
 import type { Construct } from 'constructs'
-import type { StackProps } from '@internal/cdk-utils/stack'
-import { Stack } from '@internal/cdk-utils/stack'
+import type { RegionStackProps } from '@internal/cdk-utils/region-stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 import { NodeJSLambda } from '@internal/cdk-utils/lambda'
 import { CustomResource, Duration } from 'aws-cdk-lib'
 import { Provider } from 'aws-cdk-lib/custom-resources'
@@ -10,11 +10,11 @@ import type { Hash } from 'crypto'
 import { createHash } from 'crypto'
 import { readdirSync, statSync } from 'fs'
 
-interface Props extends StackProps {
+interface Props extends RegionStackProps {
   databaseUrl: string
 }
 
-export class MigrationsService extends Stack {
+export class MigrationsService extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 

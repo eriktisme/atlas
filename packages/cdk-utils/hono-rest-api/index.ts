@@ -11,8 +11,8 @@ import {
 import { ApiGateway } from 'aws-cdk-lib/aws-route53-targets'
 import type { NodeJSLambdaProps } from '../lambda'
 import { NodeJSLambda } from '../lambda'
-import { Stack } from '../stack'
 import type { ClerkProps } from '../types'
+import { RegionStack } from '../region-stack'
 
 export interface HonoRestApiProps {
   clerk?: ClerkProps
@@ -31,7 +31,7 @@ export class HonoRestApi extends Construct {
     super(scope, id)
 
     const { projectName, region, sentryDsn, serviceName, stage } =
-      Stack.getStack(this)
+      RegionStack.getStack(this)
 
     if (!region) {
       throw new Error('Region is required in the environment configuration.')
