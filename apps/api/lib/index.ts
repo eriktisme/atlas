@@ -1,21 +1,18 @@
-import type { StackProps } from '@internal/cdk-utils/stack'
-import { Stack } from '@internal/cdk-utils/stack'
+import type { RegionStackProps } from '@internal/cdk-utils/region-stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 import type { Construct } from 'constructs'
-import { HonoRestApi } from '@internal/cdk-utils/hono-rest-api'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 import { EventBus } from 'aws-cdk-lib/aws-events'
-import { Cors } from 'aws-cdk-lib/aws-apigateway'
+import { Api } from '../constructs/api'
 
-interface Props extends StackProps {
+interface Props extends RegionStackProps {
   databaseUrl: string
   domainName: string
 }
 
-export class ApiService extends Stack {
+export class ApiService extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
-
-    const hostedZone = this.getDelegatedHostedZone(props.domainName)
 
     const eventBusArn = StringParameter.fromStringParameterName(
       this,
@@ -25,33 +22,10 @@ export class ApiService extends Stack {
 
     const eventBus = EventBus.fromEventBusArn(this, 'event-bus', eventBusArn)
 
-    const { handler } = new HonoRestApi(this, 'api', {
+    new Api(this, 'api', {
+      databaseUrl: props.databaseUrl,
       domainName: props.domainName,
-      handlerProps: {
-        entry: './src/index.ts',
-        environment: {
-          DATABASE_URL: props.databaseUrl,
-          EVENT_BUS_NAME: eventBus.eventBusName,
-        },
-        serviceName: props.serviceName,
-      },
-      hostedZone,
-      restApiProps: {
-        defaultCorsPreflightOptions: {
-          allowCredentials: true,
-          allowMethods: Cors.ALL_METHODS,
-          allowHeaders: [
-            'Accept',
-            'Authorization',
-            'Origin',
-            'X-Requested-With',
-            'Content-Type',
-          ],
-          allowOrigins: Cors.ALL_ORIGINS,
-        },
-      },
+      eventBus,
     })
-
-    eventBus.grantPutEventsTo(handler)
   }
 }

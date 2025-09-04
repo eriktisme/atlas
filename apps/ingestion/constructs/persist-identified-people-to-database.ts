@@ -2,7 +2,6 @@ import { Construct } from 'constructs'
 import type { IEventBus } from 'aws-cdk-lib/aws-events'
 import { EventConsumer } from '@internal/cdk-utils/event-consumer'
 import { Duration } from 'aws-cdk-lib'
-import { Stack } from '@internal/cdk-utils/stack'
 
 interface Props {
   databaseUrl: string
@@ -16,7 +15,6 @@ export class PersistIdentifiedPeopleToDatabase extends Construct {
     new EventConsumer(this, 'persist-events', {
       eventBus: props.eventBus,
       handlerProps: {
-        serviceName: Stack.getStack(this).serviceName,
         entry: './src/events/persist-identified-people-to-database/index.ts',
         environment: {
           DATABASE_URL: props.databaseUrl,

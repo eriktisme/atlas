@@ -1,5 +1,5 @@
-import type { StackProps } from '@internal/cdk-utils/stack'
-import { Stack } from '@internal/cdk-utils/stack'
+import type { RegionStackProps } from '@internal/cdk-utils/region-stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 import type { Construct } from 'constructs'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 import { EventBus } from 'aws-cdk-lib/aws-events'
@@ -9,12 +9,12 @@ import { PersistIdentifiedGroupsToDatabase } from '../constructs/persist-identif
 import { PersistCapturedEventsToStorage } from '../constructs/persist-captured-events-to-storage'
 import { Api } from '../constructs/api'
 
-interface Props extends StackProps {
+interface Props extends RegionStackProps {
   databaseUrl: string
   domainName: string
 }
 
-export class IngestionService extends Stack {
+export class IngestionService extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 

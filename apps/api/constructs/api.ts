@@ -38,7 +38,7 @@ export class Api extends Construct {
             'X-Requested-With',
             'Content-Type',
           ],
-          allowMethods: ['POST'],
+          allowMethods: Cors.ALL_METHODS,
           allowOrigins: Cors.ALL_ORIGINS,
         },
       },
@@ -48,7 +48,7 @@ export class Api extends Construct {
 
     if (stack.monitoring) {
       stack.monitoring
-        .addLargeHeader('Atlas Ingestion API')
+        .addLargeHeader('Atlas API')
         .monitorApiGateway({
           api,
         })

@@ -1,22 +1,19 @@
 import type { StackProps as BaseStackProps } from 'aws-cdk-lib'
 import { Stack as BaseStack } from 'aws-cdk-lib'
 import type { Construct } from 'constructs'
-import type {
-  Stack as ServiceStack,
-  StackProps as ServiceStackProps,
-} from '../stack'
+import type { RegionStack, RegionStackProps } from '../region-stack'
 
 interface Service<
-  TServiceProps extends ServiceStackProps,
-  TService extends ServiceStack,
+  TServiceProps extends RegionStackProps,
+  TService extends RegionStack,
 > {
   props: TServiceProps
   stack: new (scope: Construct, id: string, props: TServiceProps) => TService
 }
 
 export interface StackProps<
-  TService extends ServiceStack,
-  TServiceProps extends ServiceStackProps,
+  TService extends RegionStack,
+  TServiceProps extends RegionStackProps,
 > extends BaseStackProps {
   projectName: string
   regions: string[]
@@ -25,8 +22,8 @@ export interface StackProps<
 }
 
 export class RootStack<
-  TService extends ServiceStack,
-  TServiceProps extends ServiceStackProps,
+  TService extends RegionStack,
+  TServiceProps extends RegionStackProps,
 > extends BaseStack {
   constructor(
     scope: Construct,

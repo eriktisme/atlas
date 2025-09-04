@@ -21,21 +21,23 @@ interface Props {
 
 export class EventConsumer extends Construct {
   readonly handler: NodeJSLambda
+  readonly queue: Queue
+  readonly deadLetterQueue: Queue
 
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id)
 
-    const deadLetterQueue = new Queue(this, 'dead-letter-queue', {
+    this.deadLetterQueue = new Queue(this, 'dead-letter-queue', {
       enforceSSL: true,
     })
 
-    const queue = new Queue(this, 'queue', {
+    this.queue = new Queue(this, 'queue', {
       ...props.queueProps,
       visibilityTimeout:
         props.queueProps?.visibilityTimeout ?? Duration.seconds(30),
       deadLetterQueue: {
         ...props.deadLetterQueueProps,
-        queue: deadLetterQueue,
+        queue: this.deadLetterQueue,
         maxReceiveCount: props.deadLetterQueueProps?.maxReceiveCount ?? 3,
       },
       enforceSSL: true,
@@ -44,13 +46,13 @@ export class EventConsumer extends Construct {
     new Rule(this, 'rule', {
       eventBus: props.eventBus,
       eventPattern: props.eventPattern,
-      targets: [new SqsQueue(queue)],
+      targets: [new SqsQueue(this.queue)],
     })
 
     this.handler = new NodeJSLambda(this, 'handler', props.handlerProps)
 
     this.handler.addEventSource(
-      new SqsEventSource(queue, props.eventSourceProps)
+      new SqsEventSource(this.queue, props.eventSourceProps)
     )
   }
 }

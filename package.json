@@ -34,6 +34,7 @@
     "@neondatabase/serverless": "^1.0.1",
     "@sentry/aws-serverless": "^10.9.0",
     "aws-cdk-lib": "^2.204.0",
+    "cdk-monitoring-constructs": "^9.15.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "constructs": "^10.4.2",

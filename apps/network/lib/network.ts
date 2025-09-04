@@ -1,5 +1,5 @@
-import type { StackProps } from '@internal/cdk-utils/stack'
-import { Stack } from '@internal/cdk-utils/stack'
+import type { RegionStackProps } from '@internal/cdk-utils/region-stack'
+import { RegionStack } from '@internal/cdk-utils/region-stack'
 import type { Construct } from 'constructs'
 import type { IPublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import { CnameRecord } from 'aws-cdk-lib/aws-route53'
@@ -11,11 +11,11 @@ import {
 } from 'aws-cdk-lib/aws-route53'
 import { StringParameter } from 'aws-cdk-lib/aws-ssm'
 
-export interface Props extends StackProps {
+export interface Props extends RegionStackProps {
   domainName: string
 }
 
-export class Network extends Stack {
+export class Network extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 
@@ -85,7 +85,7 @@ export class Network extends Stack {
     const stack =
       props.env.region === 'eu-west-1'
         ? this
-        : new Stack(this, 'root-hosted-zone-stack', {
+        : new RegionStack(this, 'root-hosted-zone-stack', {
             ...props,
             crossRegionReferences: true,
             env: {
