@@ -33,7 +33,6 @@ export class ApiService extends RegionStack {
           DATABASE_URL: props.databaseUrl,
           EVENT_BUS_NAME: eventBus.eventBusName,
         },
-        serviceName: props.serviceName,
       },
       hostedZone,
       restApiProps: {

@@ -8,13 +8,16 @@ import type { Construct } from 'constructs'
 import { Architecture, Runtime, Tracing } from 'aws-cdk-lib/aws-lambda'
 import { RetentionDays } from 'aws-cdk-lib/aws-logs'
 import { Duration } from 'aws-cdk-lib'
+import { RegionStack } from '../region-stack'
 
 export interface NodeJSLambdaProps extends NodejsFunctionProps {
-  serviceName: string
+  //
 }
 
 export class NodeJSLambda extends NodejsFunction {
   constructor(scope: Construct, id: string, props: NodeJSLambdaProps) {
+    const { serviceName } = RegionStack.getStack(scope)
+
     super(scope, id, {
       ...props,
       memorySize: props.memorySize ?? 256,
@@ -40,7 +43,7 @@ export class NodeJSLambda extends NodejsFunction {
       environment: {
         ...props.environment,
         AWS_XRAY_CONTEXT_MISSING: 'IGNORE_ERROR',
-        POWERTOOLS_SERVICE_NAME: props.serviceName,
+        POWERTOOLS_SERVICE_NAME: serviceName,
       },
     })
   }

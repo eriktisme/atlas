@@ -26,7 +26,6 @@ export class Api extends Construct {
           DATABASE_URL: props.databaseUrl,
           EVENT_BUS_NAME: props.eventBus.eventBusName,
         },
-        serviceName: stack.serviceName,
       },
       hostedZone,
       restApiProps: {
