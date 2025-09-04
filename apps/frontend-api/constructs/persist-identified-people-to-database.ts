@@ -8,14 +8,14 @@ interface Props {
   eventBus: IEventBus
 }
 
-export class PersistIdentifiedGroupsToDatabase extends Construct {
+export class PersistIdentifiedPeopleToDatabase extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id)
 
     new EventConsumer(this, 'persist-events', {
       eventBus: props.eventBus,
       handlerProps: {
-        entry: './src/events/persist-identified-groups-to-database/index.ts',
+        entry: './src/events/persist-identified-people-to-database/index.ts',
         environment: {
           DATABASE_URL: props.databaseUrl,
         },
@@ -28,11 +28,11 @@ export class PersistIdentifiedGroupsToDatabase extends Construct {
       eventPattern: {
         detail: {
           data: {
-            event: ['$groupIdentify'],
+            event: ['$identify'],
           },
         },
         detailType: ['event.captured'],
-        source: ['ingestion'],
+        source: ['frontend-api'],
       },
     })
   }

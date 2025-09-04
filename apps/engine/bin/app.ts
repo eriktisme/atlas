@@ -28,6 +28,7 @@ new RootStack(app, 'engine-service', {
       alarmProps: {
         webhookUrl: process.env.SLACK_WEBHOOK_URL as string,
       },
+      sentryDsn: process.env.ENGINE_SENTRY_DSN as string,
     },
     stack: EngineService,
   },

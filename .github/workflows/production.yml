@@ -12,9 +12,9 @@ env:
   TURBO_TEAM: ${{ secrets.VERCEL_ORG_ID }}
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
-  API_SENTRY_DSN: ${{ secrets.API_SENTRY_DSN }}
+  BACKEND_API_SENTRY_DSN: ${{ secrets.API_SENTRY_DSN }}
   ENGINE_SENTRY_DSN: ${{ secrets.ENGINE_SENTRY_DSN }}
-  INGESTION_SENTRY_DSN: ${{ secrets.INGESTION_SENTRY_DSN }}
+  FRONTEND_API_SENTRY_DSN: ${{ secrets.INGESTION_SENTRY_DSN }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 on:
@@ -154,7 +154,7 @@ jobs:
 
       - run: pnpm cdk:backend-api -- deploy --all --require-approval never
 
-      - run: pnpm cdk:ingestion -- deploy --all --require-approval never
+      - run: pnpm cdk:frontend-api -- deploy --all --require-approval never
 
   deploy-app:
     runs-on: ubuntu-latest

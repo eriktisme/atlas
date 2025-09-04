@@ -7,7 +7,7 @@
     "cdk": "turbo cdk --parallel",
     "cdk:backend-api": "turbo cdk --filter=backend-api",
     "cdk:engine": "turbo cdk --filter=engine",
-    "cdk:ingestion": "turbo cdk --filter=ingestion",
+    "cdk:frontend-api": "turbo cdk --filter=frontend-api",
     "cdk:migrations": "turbo cdk --filter=migrations",
     "cdk:network": "turbo cdk --filter=network",
     "cdk:synth": "turbo cdk:synth",

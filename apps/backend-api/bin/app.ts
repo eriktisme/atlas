@@ -27,6 +27,7 @@ new RootStack(app, 'backend-api', {
       domainName: process.env.DOMAIN_NAME as string,
       projectName,
       serviceName: 'backend-api',
+      sentryDsn: process.env.BACKEND_API_SENTRY_DSN as string,
       stage,
     },
     stack: BackendApi,

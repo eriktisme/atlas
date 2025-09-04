@@ -14,7 +14,7 @@ interface Props extends RegionStackProps {
   domainName: string
 }
 
-export class IngestionService extends RegionStack {
+export class FrontendApi extends RegionStack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 

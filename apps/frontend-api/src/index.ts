@@ -67,6 +67,7 @@ app.route('v1', v1Routes)
 app.openAPIRegistry.registerComponent('securitySchemes', 'Bearer', {
   type: 'http',
   scheme: 'bearer',
+  description: 'Public key, obtained under the "API Keys" section in the Atlas Developer Settings.',
 })
 
 app.get(
@@ -80,7 +81,7 @@ app.doc('/openapi', {
   openapi: '3.1.0',
   info: {
     version: '0.1.0',
-    title: 'Atlas Ingestion API',
+    title: 'Atlas Frontend API',
   },
 })
 

@@ -41,7 +41,7 @@ export class PersistCapturedEventsToStorage extends Construct {
       },
       eventPattern: {
         detailType: ['event.captured'],
-        source: ['ingestion'],
+        source: ['frontend-api'],
       },
     })
 

@@ -11,18 +11,18 @@ export class Atlas {
   config: AtlasConfig
 
   /**
-   * The base endpoints for the Atlas APIs.
+   * The endpoints for the Atlas APIs.
    */
   endpoints: {
     /**
-     * The base URL for the public API.
+     * The URL for the Backend API.
      */
     backendApi: string
 
     /**
-     * The base URL for the ingestion API.
+     * The URL for the Frontend API.
      */
-    ingestion: string
+    frontendApi: string
   }
 
   /**
@@ -48,8 +48,8 @@ export class Atlas {
     }
 
     this.endpoints = {
-      ingestion: `https://ingestion.${this.config.region}.atlas.erikvandam.dev`,
       backendApi: `https://backend-api.${this.config.region}.atlas.erikvandam.dev`,
+      frontendApi: `https://frontend-api.${this.config.region}.atlas.erikvandam.dev`,
     }
     this.events = new Events(this)
     this.persistence = new Persistence(this)

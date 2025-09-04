@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import { App } from 'aws-cdk-lib'
-import { IngestionService } from '../lib'
+import { FrontendApi } from '../lib'
 import { projectName } from '@internal/cdk-utils'
 import { RootStack } from '@internal/cdk-utils/root-stack'
 
@@ -11,7 +11,7 @@ const app = new App({
 
 const stage = app.node.tryGetContext('stage') ?? 'prod'
 
-new RootStack(app, 'ingestion-service', {
+new RootStack(app, 'frontend-api', {
   crossRegionReferences: true,
   env: {
     region: 'eu-west-1',
@@ -26,10 +26,11 @@ new RootStack(app, 'ingestion-service', {
       databaseUrl: process.env.DATABASE_URL as string,
       domainName: process.env.DOMAIN_NAME as string,
       projectName,
-      serviceName: 'ingestion',
+      serviceName: 'frontend-api',
+      sentryDsn: process.env.FRONTEND_API_SENTRY_DSN as string,
       stage,
     },
-    stack: IngestionService,
+    stack: FrontendApi,
   },
   stage,
 })

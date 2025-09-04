@@ -12,8 +12,8 @@ import {
 import { z } from 'zod'
 import { EventCapturedEvent } from '@internal/events-schema/events'
 import {
-  CaptureEventsResponse,
-  CaptureEventsBody,
+  CaptureEventResponse,
+  CaptureEventBody,
 } from '@internal/api-schema/events'
 
 const ConfigSchema = z.object({
@@ -36,12 +36,12 @@ export const app = new OpenAPIHono<{
 const post = createRoute({
   method: 'post',
   path: '/',
-  summary: 'Capture new events',
-  description: 'Endpoint used to capture events into the system',
+  summary: 'Capture a new event',
+  description: 'Endpoint used to capture a single event into the system',
   request: {
     body: {
       content: {
-        'application/json': { schema: CaptureEventsBody },
+        'application/json': { schema: CaptureEventBody },
       },
     },
   },
@@ -49,7 +49,7 @@ const post = createRoute({
     202: {
       content: {
         'application/json': {
-          schema: CaptureEventsResponse,
+          schema: CaptureEventResponse,
         },
       },
       description: '',
@@ -79,17 +79,19 @@ app.openapi(post, async (c) => {
 
   await eventBridgeClient.send(
     new PutEventsCommand({
-      Entries: body.events.map((event) => ({
-        Detail: JSON.stringify(
-          EventCapturedEvent.toEventBridgeEventDetail(event, {
-            tenantId,
-          })
-        ),
-        DetailType: 'event.captured',
-        EventBusName: config.eventBusName,
-        Source: 'ingestion',
-        Time: new Date(),
-      })),
+      Entries: [
+        {
+          Detail: JSON.stringify(
+            EventCapturedEvent.toEventBridgeEventDetail(body, {
+              tenantId,
+            })
+          ),
+          DetailType: 'event.captured',
+          EventBusName: config.eventBusName,
+          Source: 'frontend-api',
+          Time: new Date(),
+        },
+      ],
     })
   )
 
