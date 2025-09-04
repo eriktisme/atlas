@@ -33,7 +33,7 @@ export class PublishEventsToIntegrations extends Construct {
         },
         eventPattern: {
           detailType: ['event.captured'],
-          source: ['ingestion'],
+          source: ['frontend-api'],
         },
       }
     )

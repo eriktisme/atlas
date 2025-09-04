@@ -42,7 +42,7 @@ export class PersistEvents extends Construct {
     new Rule(this, 'rule', {
       eventBus: props.eventBus,
       eventPattern: {
-        source: ['ingestion'],
+        source: ['frontend-api'],
       },
       targets: [new KinesisFirehoseStreamV2(stream)],
     })

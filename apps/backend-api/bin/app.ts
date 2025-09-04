@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import { App } from 'aws-cdk-lib'
-import { EngineService } from '../lib'
+import { BackendApi } from '../lib'
 import { projectName } from '@internal/cdk-utils'
 import { RootStack } from '@internal/cdk-utils/root-stack'
 
@@ -11,7 +11,7 @@ const app = new App({
 
 const stage = app.node.tryGetContext('stage') ?? 'prod'
 
-new RootStack(app, 'engine-service', {
+new RootStack(app, 'backend-api', {
   crossRegionReferences: true,
   env: {
     region: 'eu-west-1',
@@ -20,17 +20,17 @@ new RootStack(app, 'engine-service', {
   regions: ['eu-west-1'],
   service: {
     props: {
-      databaseUrl: process.env.DATABASE_URL as string,
-      domainName: process.env.DOMAIN_NAME as string,
-      projectName,
-      serviceName: 'engine',
-      stage,
       alarmProps: {
         webhookUrl: process.env.SLACK_WEBHOOK_URL as string,
       },
-      sentryDsn: process.env.ENGINE_SENTRY_DSN as string,
+      databaseUrl: process.env.DATABASE_URL as string,
+      domainName: process.env.DOMAIN_NAME as string,
+      projectName,
+      serviceName: 'backend-api',
+      sentryDsn: process.env.BACKEND_API_SENTRY_DSN as string,
+      stage,
     },
-    stack: EngineService,
+    stack: BackendApi,
   },
   stage,
 })

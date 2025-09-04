@@ -21,7 +21,6 @@ export class MigrationsService extends RegionStack {
     const migrationDirectoryPath = join(__dirname, '../src/migrations')
 
     const onEventHandler = new NodeJSLambda(this, 'function', {
-      serviceName: props.serviceName,
       entry: './src/index.ts',
       timeout: Duration.seconds(300),
       bundling: {

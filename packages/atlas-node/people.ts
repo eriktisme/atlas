@@ -21,7 +21,7 @@ export class People {
       )
     }
 
-    const url = new URL(`${this.instance.endpoints.api}/v1/people`)
+    const url = new URL(`${this.instance.endpoints.backendApi}/v1/people`)
 
     if (query) {
       Object.entries(query).forEach(([key, value]) => {

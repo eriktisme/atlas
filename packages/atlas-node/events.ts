@@ -16,7 +16,7 @@ export class Events {
       timestamp: new Date().toISOString(),
     }
 
-    await fetch(`${this.instance.endpoints.ingestion}/v1/events/capture`, {
+    await fetch(`${this.instance.endpoints.frontendApi}/v1/events/capture`, {
       method: 'POST',
       headers: this.instance.headers(),
       body: JSON.stringify(enrichedEvent),
