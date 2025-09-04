@@ -20,6 +20,9 @@ new RootStack(app, 'api-service', {
   regions: ['eu-west-1'],
   service: {
     props: {
+      alarmProps: {
+        webhookUrl: process.env.SLACK_WEBHOOK_URL as string,
+      },
       databaseUrl: process.env.DATABASE_URL as string,
       domainName: process.env.DOMAIN_NAME as string,
       projectName,

@@ -15,6 +15,7 @@ env:
   API_SENTRY_DSN: ${{ secrets.API_SENTRY_DSN }}
   ENGINE_SENTRY_DSN: ${{ secrets.ENGINE_SENTRY_DSN }}
   INGESTION_SENTRY_DSN: ${{ secrets.INGESTION_SENTRY_DSN }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 on:
   workflow_dispatch:

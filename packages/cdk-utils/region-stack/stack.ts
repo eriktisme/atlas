@@ -6,14 +6,15 @@ import type { IPublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import { PublicHostedZone } from 'aws-cdk-lib/aws-route53'
 import type { IEventBus } from 'aws-cdk-lib/aws-events'
 import { EventBus } from 'aws-cdk-lib/aws-events'
-import { Topic } from 'aws-cdk-lib/aws-sns'
 import {
   MonitoringFacade,
   SnsAlarmActionStrategy,
 } from 'cdk-monitoring-constructs'
-import { ServicePrincipal } from 'aws-cdk-lib/aws-iam'
+import type { AlarmProps } from './alarms'
+import { Alarms } from './alarms'
 
 export interface RegionStackProps extends BaseStackProps {
+  alarmProps?: AlarmProps
   projectName: string
   sentryDsn?: string
   serviceName: string
@@ -42,25 +43,20 @@ export class RegionStack extends BaseStack {
   readonly sentryDsn?: string
 
   /**
-   * The SNS topic for alarms.
-   */
-  readonly alarmTopic: Topic
-
-  /**
    * The monitoring facade for setting up alarms and monitoring.
    */
-  readonly monitoring: MonitoringFacade
+  readonly monitoring: MonitoringFacade | null = null
 
   constructor(scope: Construct, id: string, props: RegionStackProps) {
     if (!props.env?.region) {
       throw new Error('Region is required in the environment configuration.')
     }
 
-    const stackName = props.stackName ??
-      [
-        ...scope.node.scopes.map((p) => p.node.id).filter((v) => !!v),
-        id,
-      ].join('-')
+    const stackName =
+      props.stackName ??
+      [...scope.node.scopes.map((p) => p.node.id).filter((v) => !!v), id].join(
+        '-'
+      )
 
     super(scope, id, {
       ...props,
@@ -72,22 +68,25 @@ export class RegionStack extends BaseStack {
     this.serviceName = props.serviceName
     this.sentryDsn = props.sentryDsn
 
-    this.alarmTopic = new Topic(this, 'alarm-topic', {
-      topicName: `${props.env.region}-${props.stage}-${props.projectName}-${props.serviceName}-alarms`,
-      enforceSSL: true,
-    })
+    if (props.alarmProps) {
+      const { alarmTopic } = new Alarms(this, 'alarms', {
+        region: this.region,
+        projectName: props.projectName,
+        serviceName: props.serviceName,
+        stage: props.stage,
+        alarmProps: props.alarmProps,
+      })
 
-    this.alarmTopic.grantPublish(new ServicePrincipal('cloudwatch.amazonaws.com'))
-
-    this.monitoring = new MonitoringFacade(this, `${stackName}-monitoring`, {
-      alarmFactoryDefaults: {
-        action: new SnsAlarmActionStrategy({
-          onAlarmTopic: this.alarmTopic,
-        }),
-        actionsEnabled: true,
-        alarmNamePrefix: 'Atlas',
-      },
-    })
+      this.monitoring = new MonitoringFacade(this, `${stackName}-monitoring`, {
+        alarmFactoryDefaults: {
+          action: new SnsAlarmActionStrategy({
+            onAlarmTopic: alarmTopic,
+          }),
+          actionsEnabled: true,
+          alarmNamePrefix: 'Atlas',
+        },
+      })
+    }
   }
 
   getDelegatedHostedZone(zoneName: string): IPublicHostedZone {
