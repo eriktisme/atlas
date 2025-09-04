@@ -84,6 +84,7 @@ export class RegionStack extends BaseStack {
           }),
           actionsEnabled: true,
           alarmNamePrefix: 'Atlas',
+          datapointsToAlarm: 1,
         },
       })
     }
