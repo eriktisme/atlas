@@ -24,7 +24,7 @@ import {
 import { Input } from '@internal/design-system/components/ui/input'
 import { toast } from 'sonner'
 import type { ClerkAPIError } from '@clerk/types'
-import { useAtlas } from '@internal/atlas-react'
+import { useAtlas } from '@atlas/react'
 
 const FormSchema = z.object({
   email: z.string().email(),

@@ -2,7 +2,7 @@
 
 import { type PropsWithChildren, useEffect } from 'react'
 import { useUser } from '@clerk/nextjs'
-import { useAtlas } from '@internal/atlas-react'
+import { useAtlas } from '@atlas/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { queryConfig } from '@/lib/react-query'
 
@@ -13,7 +13,7 @@ export const Providers = (props: PropsWithChildren) => {
 
   useEffect(() => {
     if (user) {
-      atlasClient.identify(user.id)
+      void atlasClient.identify(user.id)
     }
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 

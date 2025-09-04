@@ -16,7 +16,7 @@ import { Input } from '@internal/design-system/components/ui/input'
 import { Button } from '@internal/design-system/components/ui/button'
 import { useOrganizationList, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
-import { useAtlas } from '@internal/atlas-react'
+import { useAtlas } from '@atlas/react'
 
 const FormSchema = z.object({
   name: z.string().min(1),

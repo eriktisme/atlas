@@ -198,12 +198,12 @@ importers:
 
   apps/app:
     dependencies:
-      '@atlas-labs/atlas-node':
+      '@atlas/javascript':
         specifier: workspace:*
-        version: link:../../packages/atlas-node
-      '@atlas-labs/atlas-react':
+        version: link:../../external/javascript
+      '@atlas/react':
         specifier: workspace:*
-        version: link:../../packages/atlas-react
+        version: link:../../external/react
       '@clerk/backend':
         specifier: ^2.10.1
         version: 2.10.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -561,31 +561,53 @@ importers:
         specifier: ^17.7.0
         version: 17.7.0(@babel/preset-env@7.28.3(@babel/core@7.28.0))(@types/node@22.16.3)(encoding@0.1.13)(mem-fs@2.3.0)
 
+  external/backend:
+    dependencies:
+      '@atlas/javascript':
+        specifier: workspace:*
+        version: link:../javascript
+      '@internal/api-schema':
+        specifier: workspace:*
+        version: link:../../packages/api-schema
+    devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+
+  external/frontend:
+    dependencies:
+      '@atlas/javascript':
+        specifier: workspace:*
+        version: link:../javascript
+      '@internal/api-schema':
+        specifier: workspace:*
+        version: link:../../packages/api-schema
+    devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+
+  external/javascript:
+    devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+
+  external/react:
+    dependencies:
+      '@atlas/frontend':
+        specifier: workspace:*
+        version: link:../frontend
+    devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+
   packages/api-schema:
     dependencies:
       '@hono/zod-openapi':
         specifier: ^0.18.4
         version: 0.18.4(hono@4.8.4)(zod@3.24.4)
-    devDependencies:
-      '@internal/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-
-  packages/atlas-node:
-    dependencies:
-      '@internal/api-schema':
-        specifier: workspace:*
-        version: link:../api-schema
-    devDependencies:
-      '@internal/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-
-  packages/atlas-react:
-    dependencies:
-      '@atlas-labs/atlas-node':
-        specifier: workspace:*
-        version: link:../atlas-node
     devDependencies:
       '@internal/tsconfig':
         specifier: workspace:*

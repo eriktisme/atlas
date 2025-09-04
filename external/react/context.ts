@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react'
-import type { Atlas } from '@atlas-labs/atlas-node'
+import type { ApiClient } from '@atlas/frontend'
 
 interface AtlasContextState {
-  atlasClient: Atlas
+  atlasClient: ApiClient
 }
 
 export const AtlasConfigContext = createContext<AtlasContextState | null>(null)
