@@ -5,7 +5,10 @@
   "globalPassThroughEnv": [
     "DATABASE_URL",
     "CLERK_SECRET_KEY",
-    "CLERK_WEBHOOK_SECRET"
+    "CLERK_WEBHOOK_SECRET",
+    "BACKEND_API_SENTRY_DSN",
+    "ENGINE_SENTRY_DSN",
+    "FRONTEND_API_SENTRY_DSN"
   ],
   "tasks": {
     "build": {

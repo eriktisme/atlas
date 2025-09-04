@@ -6,7 +6,7 @@ import {
 } from '@internal/design-system/components/ui/avatar'
 import { Button } from '@internal/design-system/components/ui/button'
 import { useRouter } from 'next/navigation'
-import { useAtlas } from '@internal/atlas-react'
+import { useAtlas } from '@atlas/react'
 import { useUser } from '@clerk/nextjs'
 
 interface Props {

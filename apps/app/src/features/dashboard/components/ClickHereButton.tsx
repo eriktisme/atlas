@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@internal/design-system/components/ui/button'
-import { useAtlas } from '@atlas-labs/atlas-react'
+import { useAtlas } from '@atlas/react'
 
 export const ClickHereButton = () => {
   const { atlasClient } = useAtlas()

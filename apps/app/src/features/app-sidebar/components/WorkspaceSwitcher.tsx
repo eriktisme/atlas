@@ -29,7 +29,7 @@ import {
 import { env } from '@/env'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useAtlas } from '@internal/atlas-react'
+import { useAtlas } from '@atlas/react'
 
 interface Props {
   user: User | null

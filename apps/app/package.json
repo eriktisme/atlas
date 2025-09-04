@@ -10,8 +10,8 @@
     "typeCheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@atlas-labs/atlas-node": "workspace:*",
-    "@atlas-labs/atlas-react": "workspace:*",
+    "@atlas/javascript": "workspace:*",
+    "@atlas/react": "workspace:*",
     "@clerk/backend": "^2.10.1",
     "@clerk/nextjs": "^6.31.6",
     "@hookform/resolvers": "^3.10.0",

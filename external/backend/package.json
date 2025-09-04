@@ -1,13 +1,14 @@
 {
-  "name": "@atlas-labs/atlas-react",
+  "name": "@atlas/backend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "lint": "eslint '**/*.{ts,tsx}'",
+    "lint": "eslint '**/*.ts'",
     "typeCheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@atlas-labs/atlas-node": "workspace:*"
+    "@atlas/javascript": "workspace:*",
+    "@internal/api-schema": "workspace:*"
   },
   "devDependencies": {
     "@internal/tsconfig": "workspace:*"
