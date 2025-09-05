@@ -12,8 +12,8 @@
   "dependencies": {
     "@atlas/javascript": "workspace:*",
     "@atlas/react": "workspace:*",
-    "@clerk/backend": "^2.10.1",
-    "@clerk/nextjs": "^6.31.6",
+    "@clerk/backend": "^2.12.1",
+    "@clerk/nextjs": "^6.31.9",
     "@hookform/resolvers": "^3.10.0",
     "@internal/design-system": "workspace:*",
     "@internal/next-config": "workspace:*",

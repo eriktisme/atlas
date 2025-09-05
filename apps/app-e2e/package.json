@@ -1,0 +1,11 @@
+{
+  "name": "app-e2e",
+  "scripts": {
+    "lint": "eslint '**/*.ts'",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@clerk/testing": "^1.4.29",
+    "@playwright/test": "^1.51.1"
+  }
+}

@@ -14,3 +14,7 @@ including the purpose of key directories and files.
 #### **`packages`**
 
 - Houses reusable libraries and components that can be shared across multiple applications.
+
+#### **`external`**
+
+- Houses libraries that will should be published and used by customers.
