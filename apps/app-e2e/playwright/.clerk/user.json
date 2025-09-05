@@ -1,0 +1,95 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "sbNs445ePh6SXy4NV7jkFmXj1Kl3GK7Y4yTq.ibFofY-1757066251-1.0.1.1-nwmJNMvCHwZxfLjSm06YmXHBYbo6LVML0jrtFvpwPsTe_RRviXALI2YAEVJieAQ9OgLeZ5mXEVHjDYDeOx2FWzv8wlboQrR0971C1m4PRZA",
+      "domain": ".bursting-polecat-92.clerk.accounts.dev",
+      "path": "/",
+      "expires": 1757068051.384034,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "6MK5MVlGd2.VbT5I0SQyo9xrsWJmiW6YtYAELwpBwCk-1757066251394-0.0.1.1-604800000",
+      "domain": ".bursting-polecat-92.clerk.accounts.dev",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__clerk_db_jwt",
+      "value": "dvb_32H8gvB50s3X5cjbVN6WlJxnJjz",
+      "domain": "app.eu-west-1.atlas.erikvandam.dev",
+      "path": "/",
+      "expires": 1788602256,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__clerk_db_jwt_PKnuqOsN",
+      "value": "dvb_32H8gvB50s3X5cjbVN6WlJxnJjz",
+      "domain": "app.eu-west-1.atlas.erikvandam.dev",
+      "path": "/",
+      "expires": 1788602256,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__session",
+      "value": "eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18yelNqVk9VN1dzNG1RY0JpejFGRlZ0czZtZjciLCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwczovL2FwcC5ldS13ZXN0LTEuYXRsYXMuZXJpa3ZhbmRhbS5kZXYiLCJleHAiOjE3NTcwNjYzMTUsImZ2YSI6WzAsLTFdLCJpYXQiOjE3NTcwNjYyNTUsImlzcyI6Imh0dHBzOi8vYnVyc3RpbmctcG9sZWNhdC05Mi5jbGVyay5hY2NvdW50cy5kZXYiLCJuYmYiOjE3NTcwNjYyNDUsInNpZCI6InNlc3NfMzJIOGhJaVBRQVJXVnFOWG9RT21BRjBNR2dnIiwic3RzIjoiYWN0aXZlIiwic3ViIjoidXNlcl8zMkg4RHZySXlUVGpkZVVFeXkxd2F5RkJrWm8iLCJ2IjoyfQ.ZoElI96N2V6_nXhOHC1Ev8fXtNwZNw_IJEu0pAm5iEgcmOun1jhxsCClwCEnxxxaRrkddhe6Ag-U3gmGdKTR6kcdh-NZPsgGDUbhHB5or7hKWJXjI3IV9us-oPSvndfvbUGfRzHXeh4G5RTyCwOaRvqLnhctgbDija95l0eS0pwwmiQBfzXL44UmEe8yWWE-pj7d6CROdiK5Dh_PaDN28eS-CVACAfZZAj0zUfgEaM9NrOPbmtBwve9LNY7xlj3MjwFE2xd4_WK5_8wbCiYRJru93KJpEUdc41JbVfriMF8NMUm-E-VFfsVQpxdLD8yXkqKe6nfGb4QrW26pPBk3oA",
+      "domain": "app.eu-west-1.atlas.erikvandam.dev",
+      "path": "/",
+      "expires": 1788602255,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__session_PKnuqOsN",
+      "value": "eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18yelNqVk9VN1dzNG1RY0JpejFGRlZ0czZtZjciLCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwczovL2FwcC5ldS13ZXN0LTEuYXRsYXMuZXJpa3ZhbmRhbS5kZXYiLCJleHAiOjE3NTcwNjYzMTUsImZ2YSI6WzAsLTFdLCJpYXQiOjE3NTcwNjYyNTUsImlzcyI6Imh0dHBzOi8vYnVyc3RpbmctcG9sZWNhdC05Mi5jbGVyay5hY2NvdW50cy5kZXYiLCJuYmYiOjE3NTcwNjYyNDUsInNpZCI6InNlc3NfMzJIOGhJaVBRQVJXVnFOWG9RT21BRjBNR2dnIiwic3RzIjoiYWN0aXZlIiwic3ViIjoidXNlcl8zMkg4RHZySXlUVGpkZVVFeXkxd2F5RkJrWm8iLCJ2IjoyfQ.ZoElI96N2V6_nXhOHC1Ev8fXtNwZNw_IJEu0pAm5iEgcmOun1jhxsCClwCEnxxxaRrkddhe6Ag-U3gmGdKTR6kcdh-NZPsgGDUbhHB5or7hKWJXjI3IV9us-oPSvndfvbUGfRzHXeh4G5RTyCwOaRvqLnhctgbDija95l0eS0pwwmiQBfzXL44UmEe8yWWE-pj7d6CROdiK5Dh_PaDN28eS-CVACAfZZAj0zUfgEaM9NrOPbmtBwve9LNY7xlj3MjwFE2xd4_WK5_8wbCiYRJru93KJpEUdc41JbVfriMF8NMUm-E-VFfsVQpxdLD8yXkqKe6nfGb4QrW26pPBk3oA",
+      "domain": "app.eu-west-1.atlas.erikvandam.dev",
+      "path": "/",
+      "expires": 1788602255,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__client_uat_PKnuqOsN",
+      "value": "1757066254",
+      "domain": ".erikvandam.dev",
+      "path": "/",
+      "expires": 1788602255,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__client_uat",
+      "value": "1757066254",
+      "domain": ".erikvandam.dev",
+      "path": "/",
+      "expires": 1788602255,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://app.eu-west-1.atlas.erikvandam.dev",
+      "localStorage": [
+        {
+          "name": "__clerk_environment",
+          "value": "{\"value\":{\"object\":\"environment\",\"auth_config\":{\"claimed_at\":null,\"id\":\"\",\"object\":\"auth_config\",\"reverification\":true,\"single_session_mode\":true},\"display_config\":{\"object\":\"display_config\",\"after_create_organization_url\":\"https://app.eu-west-1.atlas.erikvandam.dev\",\"after_join_waitlist_url\":\"https://app.eu-west-1.atlas.erikvandam.dev\",\"after_leave_organization_url\":\"https://app.eu-west-1.atlas.erikvandam.dev\",\"after_sign_in_url\":\"https://app.eu-west-1.atlas.erikvandam.dev\",\"after_sign_out_all_url\":\"https://bursting-polecat-92.accounts.dev/sign-in\",\"after_sign_out_one_url\":\"https://bursting-polecat-92.accounts.dev/sign-in/choose\",\"after_sign_up_url\":\"https://app.eu-west-1.atlas.erikvandam.dev\",\"after_switch_session_url\":\"https://app.eu-west-1.atlas.erikvandam.dev\",\"application_name\":\"Atlas\",\"branded\":true,\"captcha_heartbeat\":false,\"captcha_oauth_bypass\":[],\"captcha_provider\":\"turnstile\",\"captcha_public_key_invisible\":\"0x4AAAAAAAFV93qQdS0ycilX\",\"captcha_public_key\":\"0x4AAAAAAAWXJGBD7bONzLBd\",\"captcha_widget_type\":\"smart\",\"clerk_js_version\":\"5\",\"create_organization_url\":\"https://bursting-polecat-92.accounts.dev/create-organization\",\"favicon_image_url\":\"\",\"home_url\":\"https://app.eu-west-1.atlas.erikvandam.dev\",\"id\":\"display_config_2zSjVClTcbH1OCxdvG6Hx9ltECI\",\"instance_environment_type\":\"development\",\"logo_image_url\":\"\",\"organization_profile_url\":\"https://bursting-polecat-92.accounts.dev/organization\",\"preferred_sign_in_strategy\":\"password\",\"privacy_policy_url\":\"\",\"show_devmode_warning\":true,\"sign_in_url\":\"https://bursting-polecat-92.accounts.dev/sign-in\",\"sign_up_url\":\"https://bursting-polecat-92.accounts.dev/sign-up\",\"support_email\":\"\",\"terms_url\":\"\",\"theme\":{\"buttons\":{\"font_color\":\"#ffffff\",\"font_family\":\"\\\"Source Sans Pro\\\", sans-serif\",\"font_weight\":\"600\"},\"general\":{\"color\":\"#6c47ff\",\"padding\":\"1em\",\"box_shadow\":\"0 2px 8px rgba(0, 0, 0, 0.2)\",\"font_color\":\"#151515\",\"font_family\":\"\\\"Source Sans Pro\\\", sans-serif\",\"border_radius\":\"0.5em\",\"background_color\":\"#ffffff\",\"label_font_weight\":\"600\"},\"accounts\":{\"background_color\":\"#ffffff\"}},\"user_profile_url\":\"https://bursting-polecat-92.accounts.dev/user\",\"waitlist_url\":\"https://bursting-polecat-92.accounts.dev/waitlist\"},\"id\":\"\",\"maintenance_mode\":false,\"client_debug_mode\":false,\"organization_settings\":{\"actions\":{\"admin_delete\":true},\"domains\":{\"enabled\":false,\"enrollment_modes\":[],\"default_role\":\"org:member\"},\"enabled\":true,\"max_allowed_memberships\":5},\"user_settings\":{\"actions\":{\"delete_self\":true,\"create_organization\":true,\"create_organizations_limit\":null},\"attributes\":{\"email_address\":{\"enabled\":true,\"required\":true,\"used_for_first_factor\":true,\"first_factors\":[\"email_code\"],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[\"email_code\"],\"verify_at_sign_up\":true,\"name\":\"email_address\"},\"phone_number\":{\"enabled\":false,\"required\":false,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"phone_number\"},\"username\":{\"enabled\":false,\"required\":false,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"username\"},\"web3_wallet\":{\"enabled\":false,\"required\":false,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"web3_wallet\"},\"first_name\":{\"enabled\":true,\"required\":true,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"first_name\"},\"last_name\":{\"enabled\":true,\"required\":true,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"last_name\"},\"password\":{\"enabled\":true,\"required\":true,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"password\"},\"authenticator_app\":{\"enabled\":false,\"required\":false,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"authenticator_app\"},\"ticket\":{\"enabled\":true,\"required\":false,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"ticket\"},\"backup_code\":{\"enabled\":false,\"required\":false,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"backup_code\"},\"passkey\":{\"enabled\":false,\"required\":false,\"used_for_first_factor\":false,\"first_factors\":[],\"used_for_second_factor\":false,\"second_factors\":[],\"verifications\":[],\"verify_at_sign_up\":false,\"name\":\"passkey\"}},\"passkey_settings\":{\"allow_autofill\":true,\"show_sign_in_button\":true},\"password_settings\":{\"disable_hibp\":false,\"min_length\":8,\"max_length\":72,\"require_special_char\":false,\"require_numbers\":false,\"require_uppercase\":false,\"require_lowercase\":false,\"show_zxcvbn\":false,\"min_zxcvbn_strength\":0,\"enforce_hibp_on_sign_in\":true,\"allowed_special_characters\":\"!\\\"#$%&'()*+,-./:;<=>?@[]^_`{|}~\"},\"saml\":{\"enabled\":false},\"sign_in\":{\"second_factor\":{\"required\":false}},\"sign_up\":{\"captcha_enabled\":true,\"captcha_widget_type\":\"smart\",\"custom_action_required\":false,\"progressive\":true,\"mode\":\"waitlist\",\"legal_consent_enabled\":false},\"social\":{\"oauth_github\":{\"enabled\":false,\"required\":false,\"authenticatable\":false,\"block_email_subaddresses\":false,\"strategy\":\"oauth_github\",\"not_selectable\":false,\"deprecated\":false,\"name\":\"GitHub\",\"logo_url\":\"https://img.clerk.com/static/github.png\"}}},\"commerce_settings\":{\"billing\":{\"stripe_publishable_key\":\"\",\"enabled\":false,\"has_paid_user_plans\":false,\"has_paid_org_plans\":false,\"organization\":{\"enabled\":false,\"has_paid_plans\":false},\"user\":{\"enabled\":false,\"has_paid_plans\":false}}},\"api_keys_settings\":{\"enabled\":false}},\"exp\":1757152654228}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "app-e2e",
+  "scripts": {
+    "lint": "eslint '**/*.ts'",
+    "test:e2e": "playwright test"
+  }
+}

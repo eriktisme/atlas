@@ -1,0 +1,38 @@
+name: End to End Tests
+
+on:
+  workflow_dispatch:
+  deployment_status:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  run-tests:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'production')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm i --frozen-lockfile
+
+      - run: pnpm exec playwright install-deps
+
+      - run: pnpm exec playwright install
+
+      - run: pnpm exec playwright test
+        working-directory: apps/app-e2e
+        env:
+          E2E_EMAIL: ${{ secrets.E2E_EMAIL }}
+          E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
