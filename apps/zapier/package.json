@@ -4,7 +4,6 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint '**/*.{ts,tsx}'",
-    "test": "jest --passWithNoTests",
     "typeCheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {

@@ -9,8 +9,6 @@
     "cdk": "cdk",
     "generate:migration": "drizzle-kit generate --dialect=postgresql --schema=./src/schema.ts --out=./src/migrations",
     "lint": "eslint '**/*.ts'",
-    "test": "jest --passWithNoTests",
-    "test:coverage": "jest --coverage --passWithNoTests",
     "typeCheck": "tsc --noEmit --emitDeclarationOnly false",
     "watch": "tsc -w"
   },

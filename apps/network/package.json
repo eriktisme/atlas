@@ -9,16 +9,12 @@
     "cdk": "cdk",
     "cdk:synth": "cdk synth",
     "lint": "eslint '**/*.{ts,tsx}'",
-    "test": "jest --passWithNoTests",
-    "test:coverage": "jest --coverage --passWithNoTests",
     "typeCheck": "tsc --noEmit --emitDeclarationOnly false",
     "watch": "tsc -w"
   },
   "devDependencies": {
     "@internal/cdk-utils": "workspace:*",
     "@internal/tsconfig": "workspace:*",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^22",
-    "jest": "^29.7.0"
+    "@types/node": "^22"
   }
 }
