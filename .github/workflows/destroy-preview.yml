@@ -1,0 +1,132 @@
+name: Destroy Preview Deployment
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+
+env:
+  CI: true
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  TURBO_TEAM: ${{ secrets.VERCEL_ORG_ID }}
+  DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+  NEON_PROJECT: ${{ secrets.NEON_PROJECT }}
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  destroy-endpoints:
+    runs-on: ubuntu-latest
+    env:
+      STAGE: ${{ github.event.number || github.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
+          aws-region: eu-west-1
+
+      - run: pnpm cdk:backend-api -- deploy --all --require-approval never
+
+      - run: pnpm cdk:frontend-api -- deploy --all --require-approval never
+
+  destroy-engine:
+    runs-on: ubuntu-latest
+    needs: [destroy-endpoints]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
+          aws-region: eu-west-1
+
+      - run: pnpm cdk:network -- deploy --all --require-approval never
+
+      - run: pnpm cdk:migrations -- deploy --all --require-approval never
+
+      - run: pnpm cdk:engine -- deploy --all --require-approval never
+
+#  destroy-app:
+#    runs-on: ubuntu-latest
+#    needs: [destroy-endpoints, destroy-engine]
+#    environment: preview
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - uses: pnpm/action-setup@v4
+#        with:
+#          run_install: false
+#
+#      - uses: actions/cache@v4
+#        with:
+#          path: .turbo
+#          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+#          restore-keys: |
+#            ${{ runner.os }}-turbo-
+#
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: 22
+#          cache: pnpm
+#
+#      - run: pnpm install --frozen-lockfile
+#
+#      - run: pnpm vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
+#        env:
+#          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  destroy-database-branch:
+    runs-on: ubuntu-latest
+    needs: [destroy-endpoints, destroy-engine]
+
+    steps:
+      - uses: neondatabase/delete-branch-action@v3
+        with:
+          project_id: ${{ secrets.NEON_PROJECT }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch_name: ${{ github.event.number || github.sha }}
