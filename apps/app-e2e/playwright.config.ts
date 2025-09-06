@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 import 'dotenv/config'
 
-const BASE_URL = process.env.BASE_URL || 'https://app.eu-west-1.atlas.erikvandam.dev'
+const BASE_URL =
+  process.env.BASE_URL || 'https://app.eu-west-1.atlas.erikvandam.dev'
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -33,7 +34,7 @@ export default defineConfig({
     trace: 'retry-with-trace',
     extraHTTPHeaders: {
       'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
-    }
+    },
   },
 
   /* Configure projects for major browsers */
