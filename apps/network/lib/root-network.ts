@@ -19,8 +19,14 @@ export class RootNetwork extends RootStack<Network, NetworkProps> {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 
+    let zoneName = props.domainName
+
+    if (props.stage !== 'prod') {
+      zoneName = `${props.stage}.envs.${props.domainName}`
+    }
+
     const zone = new PublicHostedZone(this, 'root-public-zone', {
-      zoneName: props.domainName,
+      zoneName,
       comment: 'This is the root hosted zone for the project',
     })
 
@@ -56,10 +62,12 @@ export class RootNetwork extends RootStack<Network, NetworkProps> {
       zone,
     })
 
-    new ARecord(this, 'a', {
-      target: RecordTarget.fromIpAddresses('76.76.21.21'),
-      recordName: props.domainName,
-      zone,
-    })
+    if (props.stage === 'prod') {
+      new ARecord(this, 'a', {
+        target: RecordTarget.fromIpAddresses('76.76.21.21'),
+        recordName: props.domainName,
+        zone,
+      })
+    }
   }
 }

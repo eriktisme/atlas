@@ -25,7 +25,11 @@ export class Network extends RegionStack {
 
     const rootHostedZone = this.getRootHostedZone(props)
 
-    const zoneName = `${props.env.region}.${props.domainName}`
+    let zoneName = `${props.env.region}.${props.domainName}`
+
+    if (props.stage !== 'prod') {
+      zoneName = `${props.env.region}.${props.stage}.envs.${props.domainName}`
+    }
 
     const delegatedZone = new PublicHostedZone(this, 'delegated-hosted-zone', {
       zoneName,
