@@ -49,9 +49,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
           aws-region: eu-west-1
 
-      - run: pnpm cdk:backend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
-
-      - run: pnpm cdk:frontend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+      - run: pnpm cdk:api -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
 
   destroy-engine:
     runs-on: ubuntu-latest
@@ -83,11 +81,11 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
           aws-region: eu-west-1
 
-      - run: pnpm cdk:network -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+      - run: pnpm cdk:engine -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
 
-      - run: pnpm cdk:migrations -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+      - run: pnpm cdk:migrations -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
 
-      - run: pnpm cdk:engine -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+      - run: pnpm cdk:network -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
 
 #  destroy-app:
 #    runs-on: ubuntu-latest
@@ -115,7 +113,7 @@ jobs:
 #
 #      - run: pnpm install --frozen-lockfile
 #
-#      - run: pnpm vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
+#      - run: pnpm vercel destroy --token=${{ secrets.VERCEL_TOKEN }}
 #        env:
 #          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
@@ -124,6 +122,8 @@ jobs:
     needs: [destroy-endpoints, destroy-engine]
 
     steps:
+      - uses: actions/checkout@v4
+        
       - uses: neondatabase/delete-branch-action@v3
         with:
           project_id: ${{ secrets.NEON_PROJECT }}

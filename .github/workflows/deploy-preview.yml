@@ -165,6 +165,8 @@ jobs:
           branch_name: ${{ github.event.number || github.sha }}
 
       - run: pnpm cdk:api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
 
 #  deploy-app:
 #    runs-on: ubuntu-latest
