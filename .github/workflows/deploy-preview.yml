@@ -97,6 +97,8 @@ jobs:
   deploy-engine:
     runs-on: ubuntu-latest
     needs: [build, tests, create-database-branch]
+    env:
+      DATABASE_URL: ${{ env.DATABASE_URL }}
 
     steps:
       - uses: actions/checkout@v4
@@ -133,6 +135,8 @@ jobs:
   deploy-endpoints:
     runs-on: ubuntu-latest
     needs: [build, tests, deploy-engine, create-database-branch]
+    env:
+      DATABASE_URL: ${{ env.DATABASE_URL }}
 
     steps:
       - uses: actions/checkout@v4
