@@ -13,7 +13,7 @@ env:
   DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
   NEON_PROJECT: ${{ secrets.NEON_PROJECT }}
-  STAGE: ${{ github.event.number || github.sha }}
+  STAGE: ${{ github.event.number && 'pr-' || '' }}${{ github.event.number || github.sha }}
 
 on:
   workflow_dispatch:
