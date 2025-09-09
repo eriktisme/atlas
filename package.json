@@ -5,6 +5,7 @@
     "build:app": "turbo build --filter=app",
     "build:website": "turbo build --filter=website",
     "cdk": "turbo cdk --parallel",
+    "cdk:api": "turbo cdk --filter=backend-api --filter=frontend-api",
     "cdk:backend-api": "turbo cdk --filter=backend-api",
     "cdk:engine": "turbo cdk --filter=engine",
     "cdk:frontend-api": "turbo cdk --filter=frontend-api",

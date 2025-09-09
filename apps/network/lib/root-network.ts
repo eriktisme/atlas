@@ -6,6 +6,7 @@ import {
   ARecord,
   CaaRecord,
   CaaTag,
+  NsRecord,
   PublicHostedZone,
   RecordTarget,
 } from 'aws-cdk-lib/aws-route53'
@@ -19,10 +20,37 @@ export class RootNetwork extends RootStack<Network, NetworkProps> {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 
+    let zoneName = props.domainName
+
+    if (props.stage !== 'prod') {
+      zoneName = `${props.stage}.envs.${props.domainName}`
+    }
+
     const zone = new PublicHostedZone(this, 'root-public-zone', {
-      zoneName: props.domainName,
+      zoneName,
       comment: 'This is the root hosted zone for the project',
     })
+
+    if (props.stage !== 'prod') {
+      /**
+       * Future improvements:
+       *
+       * - Add the ability to have the root hosted zone created outside the current account
+       */
+      const rootHostedZone = PublicHostedZone.fromLookup(
+        this,
+        'zone-to-delegate-preview-env',
+        {
+          domainName: props.domainName,
+        }
+      )
+
+      new NsRecord(this, 'delegate', {
+        recordName: zoneName,
+        zone: rootHostedZone,
+        values: zone.hostedZoneNameServers ?? [],
+      })
+    }
 
     new StringParameter(this, 'root-hosted-zone-id', {
       parameterName: `/${props.env?.region}/${props.stage}/${props.projectName}/root-hosted-zone-id`,
@@ -56,10 +84,12 @@ export class RootNetwork extends RootStack<Network, NetworkProps> {
       zone,
     })
 
-    new ARecord(this, 'a', {
-      target: RecordTarget.fromIpAddresses('76.76.21.21'),
-      recordName: props.domainName,
-      zone,
-    })
+    if (props.stage === 'prod') {
+      new ARecord(this, 'a', {
+        target: RecordTarget.fromIpAddresses('76.76.21.21'),
+        recordName: props.domainName,
+        zone,
+      })
+    }
   }
 }
