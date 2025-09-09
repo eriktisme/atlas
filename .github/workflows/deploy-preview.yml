@@ -164,13 +164,7 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }}
           branch_name: ${{ github.event.number || github.sha }}
 
-      - run: pnpm cdk:backend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
-        env:
-          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
-
-      - run: pnpm cdk:frontend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
-        env:
-          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
+      - run: pnpm cdk:api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
 
 #  deploy-app:
 #    runs-on: ubuntu-latest
