@@ -13,6 +13,7 @@ env:
   DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
   NEON_PROJECT: ${{ secrets.NEON_PROJECT }}
+  STAGE: ${{ github.event.number || github.sha }}
 
 on:
   pull_request:
@@ -21,8 +22,6 @@ on:
 jobs:
   destroy-endpoints:
     runs-on: ubuntu-latest
-    env:
-      STAGE: ${{ github.event.number || github.sha }}
 
     steps:
       - uses: actions/checkout@v4
@@ -50,9 +49,9 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
           aws-region: eu-west-1
 
-      - run: pnpm cdk:backend-api -- deploy --all --require-approval never
+      - run: pnpm cdk:backend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
 
-      - run: pnpm cdk:frontend-api -- deploy --all --require-approval never
+      - run: pnpm cdk:frontend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
 
   destroy-engine:
     runs-on: ubuntu-latest
@@ -84,11 +83,11 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
           aws-region: eu-west-1
 
-      - run: pnpm cdk:network -- deploy --all --require-approval never
+      - run: pnpm cdk:network -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
 
-      - run: pnpm cdk:migrations -- deploy --all --require-approval never
+      - run: pnpm cdk:migrations -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
 
-      - run: pnpm cdk:engine -- deploy --all --require-approval never
+      - run: pnpm cdk:engine -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
 
 #  destroy-app:
 #    runs-on: ubuntu-latest

@@ -6,6 +6,7 @@ import {
   ARecord,
   CaaRecord,
   CaaTag,
+  NsRecord,
   PublicHostedZone,
   RecordTarget,
 } from 'aws-cdk-lib/aws-route53'
@@ -29,6 +30,27 @@ export class RootNetwork extends RootStack<Network, NetworkProps> {
       zoneName,
       comment: 'This is the root hosted zone for the project',
     })
+
+    if (props.stage !== 'prod') {
+      /**
+       * Future improvements:
+       *
+       * - Add the ability to have the root hosted zone created outside the current account
+       */
+      const rootHostedZone = PublicHostedZone.fromLookup(
+        this,
+        'zone-to-delegate-preview-env',
+        {
+          domainName: props.domainName,
+        }
+      )
+
+      new NsRecord(this, 'delegate', {
+        recordName: zoneName,
+        zone: rootHostedZone,
+        values: zone.hostedZoneNameServers ?? [],
+      })
+    }
 
     new StringParameter(this, 'root-hosted-zone-id', {
       parameterName: `/${props.env?.region}/${props.stage}/${props.projectName}/root-hosted-zone-id`,

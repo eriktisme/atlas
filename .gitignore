@@ -4,3 +4,5 @@ cdk.out
 node_modules
 *.d.ts.map
 .vercel
+
+cdk.context.json
