@@ -80,63 +80,56 @@ jobs:
 
       - run: pnpm test
 
-  create-database-branch:
+  deploy-engine:
     runs-on: ubuntu-latest
     needs: [build, tests]
 
     steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
+          aws-region: eu-west-1
+
       - uses: neondatabase/create-branch-action@v6
         id: create-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT }}
           api_key: ${{ secrets.NEON_API_KEY }}
           branch_name: ${{ github.event.number || github.sha }}
-      - run: psql ${{ steps.create-branch.outputs.db_url_pooled }} -c "SELECT * FROM NOW();"
-      - run: echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_pooled }}" >> $GITHUB_ENV
-
-  deploy-engine:
-    runs-on: ubuntu-latest
-    needs: [build, tests, create-database-branch]
-    env:
-      DATABASE_URL: ${{ env.DATABASE_URL }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-
-      - uses: actions/cache@v4
-        with:
-          path: .turbo
-          key: '${{ runner.os }}-turbo-${{ github.sha }}'
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
-
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
-          aws-region: eu-west-1
 
       - run: pnpm cdk:network -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
 
       - run: pnpm cdk:migrations -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
 
       - run: pnpm cdk:engine -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
 
   deploy-endpoints:
     runs-on: ubuntu-latest
-    needs: [build, tests, deploy-engine, create-database-branch]
-    env:
-      DATABASE_URL: ${{ env.DATABASE_URL }}
+    needs: [build, tests, deploy-engine]
 
     steps:
       - uses: actions/checkout@v4
@@ -164,13 +157,24 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
           aws-region: eu-west-1
 
+      - uses: neondatabase/create-branch-action@v6
+        id: create-branch
+        with:
+          project_id: ${{ secrets.NEON_PROJECT }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch_name: ${{ github.event.number || github.sha }}
+
       - run: pnpm cdk:backend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
 
       - run: pnpm cdk:frontend-api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
 
 #  deploy-app:
 #    runs-on: ubuntu-latest
-#    needs: [build, tests, deploy-engine, create-database-branch]
+#    needs: [build, tests, deploy-engine]
 #    environment: preview
 #
 #    steps:
