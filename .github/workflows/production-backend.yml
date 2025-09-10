@@ -1,4 +1,4 @@
-name: Backend Production Deployment
+name: Production Deployment - Backend
 
 permissions:
   actions: read
@@ -84,9 +84,174 @@ jobs:
 
       - run: pnpm turbo run test --filter='./apps/*' --filter='!./apps/storybook'
 
-  deploy-engine:
+  deploy-test-engine:
     runs-on: ubuntu-latest
     needs: [build, tests]
+    env:
+      STAGE: ${{ github.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
+          aws-region: eu-west-1
+
+      - uses: neondatabase/create-branch-action@v6
+        id: create-branch
+        with:
+          project_id: ${{ secrets.NEON_PROJECT }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch_name: ${{ github.sha }}
+
+      - run: pnpm cdk:network -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+
+      - run: pnpm cdk:migrations -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
+
+      - run: pnpm cdk:engine -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
+
+  deploy-test-endpoints:
+    runs-on: ubuntu-latest
+    needs: [build, tests, deploy-test-engine]
+    env:
+      STAGE: ${{ github.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
+          aws-region: eu-west-1
+
+      - uses: neondatabase/create-branch-action@v6
+        id: create-branch
+        with:
+          project_id: ${{ secrets.NEON_PROJECT }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch_name: ${{ github.sha }}
+
+      - run: pnpm cdk:api -- deploy --all --require-approval never --context stage=${{ env.STAGE }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
+
+  test-endpoints:
+    runs-on: ubuntu-latest
+    needs: [build, tests, deploy-test-endpoints]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm turbo run test:e2e --filter='./apps/backend-api-e2e' --filter='./apps/frontend-api-e2e'
+        env:
+          BASE_URL: ${{ env.STAGE }}.envs.${{ env.DOMAIN_NAME }}
+
+  destroy-test:
+    runs-on: ubuntu-latest
+    needs: [test-endpoints]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: '${{ runner.os }}-turbo-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/atlas-deploy-role
+          aws-region: eu-west-1
+
+      - run: pnpm cdk:api -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
+
+      - run: pnpm cdk:engine -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
+
+      - run: pnpm cdk:migrations -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
+
+      - run: pnpm cdk:network -- destroy --all --require-approval never --force --context stage=${{ env.STAGE }}
+
+      - uses: neondatabase/delete-branch-action@v3
+        with:
+          project_id: ${{ secrets.NEON_PROJECT }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch: ${{ github.event.number || github.sha }}
+
+  deploy-production-engine:
+    runs-on: ubuntu-latest
+    needs: [test-endpoints]
 
     steps:
       - uses: actions/checkout@v4
@@ -120,9 +285,9 @@ jobs:
 
       - run: pnpm cdk:engine -- deploy --all --require-approval never
 
-  deploy-endpoints:
+  deploy-production-endpoints:
     runs-on: ubuntu-latest
-    needs: [build, tests, deploy-engine]
+    needs: [test-endpoints]
 
     steps:
       - uses: actions/checkout@v4
