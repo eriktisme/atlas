@@ -1,8 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 import 'dotenv/config'
 
-const BASE_URL =
-  process.env.BASE_URL || 'https://backend-api.eu-west-1.atlas.erikvandam.dev'
+const BASE_URL = `https://backend-api.eu-west-1.${process.env.BASE_URL ?? 'atlas.erikvandam.dev'}`
 
 /**
  * See https://playwright.dev/docs/test-configuration.

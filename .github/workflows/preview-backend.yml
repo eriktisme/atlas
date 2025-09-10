@@ -168,6 +168,10 @@ jobs:
         env:
           DATABASE_URL: ${{ steps.create-branch.outputs.db_url_pooled }}
 
+      - run: pnpm turbo run test:e2e --filter='./apps/backend-api' --filter='./apps/frontend-api'
+        env:
+          BASE_URL: ${{ env.STAGE }}.envs.${{ env.DOMAIN_NAME }}
+
 #  deploy-app:
 #    runs-on: ubuntu-latest
 #    needs: [build, tests, deploy-engine]
