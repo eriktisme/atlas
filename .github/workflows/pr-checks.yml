@@ -63,7 +63,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build
+      - run: turbo run build --affected
 
   lint:
     runs-on: ubuntu-latest
@@ -90,7 +90,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm lint
+      - run: turbo run lint --affected
 
   tests:
     runs-on: ubuntu-latest
@@ -144,7 +144,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm typeCheck
+      - run: turbo run typeCheck --affected
 
   plan:
     runs-on: ubuntu-latest

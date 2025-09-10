@@ -20,6 +20,7 @@
     "start:app": "turbo start --filter=app",
     "start:website": "turbo start --filter=website",
     "test": "turbo test --parallel",
+    "test:app": "turbo test --filter=app",
     "test:coverage": "turbo test:coverage --parallel",
     "test:e2e": "turbo test:e2e --parallel",
     "test:e2e:app": "turbo test:e2e --filter=app-e2e",

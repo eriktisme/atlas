@@ -1,4 +1,4 @@
-name: Preview Deployment
+name: Backend Preview Deployment
 
 permissions:
   actions: read
