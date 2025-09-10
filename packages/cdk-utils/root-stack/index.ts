@@ -45,7 +45,7 @@ export class RootStack<
     })
 
     props.regions.forEach((region) => {
-      new props.service.stack(this, region, {
+      const serviceStack = new props.service.stack(this, region, {
         ...props.service.props,
         crossRegionReferences: true,
         env: {
@@ -58,6 +58,8 @@ export class RootStack<
           Region: region,
         },
       })
+
+      serviceStack.addDependency(this)
     })
   }
 }
