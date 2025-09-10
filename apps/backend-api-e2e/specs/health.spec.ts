@@ -1,7 +1,7 @@
-import test, { expect } from '@playwright/test';
+import test, { expect } from '@playwright/test'
 
 test('app is healthy', async ({ request }) => {
-  const response = await request.get('/health');
+  const response = await request.get('/health')
 
-  expect(response.status()).toBe(200);
+  expect(response.status()).toBe(200)
 })
