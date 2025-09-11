@@ -7,6 +7,7 @@ import { AaaaRecord, ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import {
   Certificate,
   CertificateValidation,
+  DnsValidatedCertificate,
 } from 'aws-cdk-lib/aws-certificatemanager'
 import { ApiGateway } from 'aws-cdk-lib/aws-route53-targets'
 import type { NodeJSLambdaProps } from '../lambda'
@@ -81,9 +82,10 @@ export class HonoRestApi extends Construct {
 
     const domainName = `${serviceName}.${zoneName}`
 
-    const certificate = new Certificate(this, 'certificate', {
+    const certificate = new DnsValidatedCertificate(this, 'dns-validated-certificate', {
       domainName,
-      validation: CertificateValidation.fromDns(props.hostedZone),
+      hostedZone: props.hostedZone,
+      cleanupRoute53Records: true,
     })
 
     this.api.addDomainName('default', {
